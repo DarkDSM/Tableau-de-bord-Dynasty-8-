@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Baux - Agence Immobilière</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            position: relative;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .agency-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+            padding: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 i {
+            color: var(--secondary);
+        }
+        
+        .employee-tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .employee-tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            background: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+        
+        .employee-tab:hover {
+            background: #e9ecef;
+        }
+        
+        .employee-tab.active {
+            background: white;
+            border-bottom: 3px solid var(--secondary);
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .employee-tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .employee-tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .form-group-bail {
+            margin-bottom: 20px;
+        }
+        
+        .form-group-bail.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+        
+        .checkbox-group.important {
+            background: #fff9e6;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .checkbox-group.validated {
+            background: #e8f6ef;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid var(--success);
+        }
+        
+        .results {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .result-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .ca-value {
+            color: var(--primary);
+        }
+        
+        .reduction-value {
+            color: var(--danger);
+        }
+        
+        .benefice-value {
+            color: var(--success);
+        }
+        
+        .total-card {
+            background: linear-gradient(to right, var(--primary), #4a6491);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .total-card h2 {
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .total-result {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .instructions {
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .instructions h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .badge.success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .badge.warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .badge.danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .history-section {
+            margin-top: 30px;
+        }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .history-table th,
+        .history-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .history-table th {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .history-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .empty-history {
+            text-align: center;
+            padding: 30px;
+            color: var(--gray);
+            font-style: italic;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary), #2980b9);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #27ae60);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #e67e22);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #c0392b);
+        }
+        
+        .percentage-input {
+            position: relative;
+        }
+        
+        .percentage-input input {
+            padding-right: 40px;
+        }
+        
+        .percentage-symbol {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-weight: bold;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .employee-tabs {
+                flex-direction: column;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Retour
+            </a>
+            <div class="agency-logo">📑</div>
+            <h1>Gestion des Baux</h1>
+            <p>Créez et gérez les baux immobiliers, suivez les performances des employés</p>
+        </header>
+        
+        <div class="dashboard">
+            <div class="card">
+                <h2><i class="fas fa-file-contract"></i> Saisie des Baux</h2>
+                
+                <div class="employee-tabs">
+                    <div class="employee-tab active" data-tab="KyleMiller">Kyle Miller</div>
+                    <div class="employee-tab" data-tab="employe2">Employé 2</div>
+                    <div class="employee-tab" data-tab="employe3">Employé 3</div>
+                    <div class="employee-tab" data-tab="employe4">Employé 4</div>
+                    <div class="employee-tab" data-tab="employe5">Employé 5</div>
+                </div>
+
+                <!-- Contenu pour Employé 1 -->
+                <div id="KyleMiller" class="employee-tab-content active">
+                    <div class="form-grid">
+                        <div class="form-group-bail">
+                            <label for="date1">Date de création du bail</label>
+                            <input type="date" id="date1">
+                        </div>
+                        
+                        <div class="form-group-bail">
+                            <label for="client1">Client / Locataire</label>
+                            <input type="text" id="client1" placeholder="Nom du client">
+                        </div>
+                        
+                        <div class="form-group-bail full-width">
+                            <label for="interieur1">Intérieur choisi</label>
+                            <input type="text" id="interieur1" placeholder="Description de l'intérieur">
+                        </div>
+                        
+                        <div class="form-group-bail full-width">
+                            <label for="rue1">Rue du bien</label>
+                            <input type="text" id="rue1" placeholder="Adresse du bien">
+                        </div>
+                        
+                        <div class="form-group-bail">
+                            <label for="garages1">Nombre de garages</label>
+                            <select id="garages1">
+                                <option value="0">0</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group-bail">
+                            <label for="ca1">Chiffre d'Affaires ($)</label>
+                            <input type="number" id="ca1" min="0" step="0.01" placeholder="Montant du CA">
+                        </div>
+                        
+                        <div class="form-group-bail">
+                            <label for="reduction1">Réduction (%)</label>
+                            <div class="percentage-input">
+                                <input type="number" id="reduction1" min="0" max="100" step="0.1" placeholder="0" value="0">
+                                <span class="percentage-symbol">%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group-bail full-width">
+                            <div class="checkbox-group important">
+                                <input type="checkbox" id="resilie1">
+                                <label for="resilie1">Bail résilié</label>
+                            </div>
+                            
+                            <div class="checkbox-group validated">
+                                <input type="checkbox" id="valide1">
+                                <label for="valide1">Validé par le patron</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="enregistrerBail(1)">
+                            <i class="fas fa-save"></i> Enregistrer le bail
+                        </button>
+                        <button class="btn btn-success" onclick="calculerBenefice(1)">
+                            <i class="fas fa-calculator"></i> Calculer
+                        </button>
+                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(1)">
+                            <i class="fas fa-redo"></i> Nouveau
+                        </button>
+                    </div>
+                    
+                    <div class="results">
+                        <h3>Résultats de Kyle Miller</h3>
+                        <div class="result-item">
+                            <span>Chiffre d'Affaires:</span>
+                            <span id="ca-result1" class="result-value ca-value">0 $</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Réduction:</span>
+                            <span id="reduction-result1" class="result-value reduction-value">0 $ (0%)</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Bénéfice:</span>
+                            <span id="benefice1" class="result-value benefice-value">0 $</span>
+                        </div>
+                        <div class="result-item">
+                            <span>Statut:</span>
+                            <span id="statut1" class="badge warning">En cours</span>
+                        </div>
+                    </div>
+                    
+                    <div class="history-section">
+                        <h3><i class="fas fa-history"></i> Historique des baux</h3>
+                        <div id="history1">
+                            <div class="empty-history">Aucun bail enregistré pour le moment</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenu pour les autres employés (similaire) -->
+                <div id="employe2" class="employee-tab-content">
+                    <!-- Structure similaire pour employé 2 -->
+                    <div class="empty-history">Section Employé 2 - À implémenter</div>
+                </div>
+                
+                <div id="employe3" class="employee-tab-content">
+                    <!-- Structure similaire pour employé 3 -->
+                    <div class="empty-history">Section Employé 3 - À implémenter</div>
+                </div>
+                
+                <div id="employe4" class="employee-tab-content">
+                    <!-- Structure similaire pour employé 4 -->
+                    <div class="empty-history">Section Employé 4 - À implémenter</div>
+                </div>
+                
+                <div id="employe5" class="employee-tab-content">
+                    <!-- Structure similaire pour employé 5 -->
+                    <div class="empty-history">Section Employé 5 - À implémenter</div>
+                </div>
+            </div>
+
+            <div class="card total-card">
+                <h2><i class="fas fa-chart-bar"></i> Tableau de Bord Global</h2>
+                <div class="result-item">
+                    <span>CA Total:</span>
+                    <span id="total-ca" class="result-value">0 $</span>
+                </div>
+                <div class="result-item">
+                    <span>Réductions Total:</span>
+                    <span id="total-reduction" class="result-value">0 $</span>
+                </div>
+                <div class="result-item">
+                    <span>Bénéfice Total:</span>
+                    <span id="total-benefice" class="result-value">0 $</span>
+                </div>
+                <div class="result-item">
+                    <span>Baux validés:</span>
+                    <span id="baux-valides" class="result-value">0</span>
+                </div>
+                <div class="result-item">
+                    <span>Baux résiliés:</span>
+                    <span id="baux-resilies" class="result-value">0</span>
+                </div>
+                <div class="result-item">
+                    <span>Total baux créés:</span>
+                    <span id="total-baux" class="result-value">0</span>
+                </div>
+                <div class="total-result" id="performance-indicator">
+                    Performance: En attente de données
+                </div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Instructions</h3>
+            <ul>
+                <li>Remplissez tous les champs du formulaire pour créer un nouveau bail</li>
+                <li>Le chiffre d'affaires correspond au montant total de la transaction</li>
+                <li>La réduction s'applique en pourcentage sur le CA</li>
+                <li>Cochez "Validé par le patron" une fois le bail approuvé</li>
+                <li>Cochez "Bail résilié" si le contrat est terminé</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Données des baux
+        let bauxData = {
+            KyleMiller: [],
+            employe2: [],
+            employe3: [],
+            employe4: [],
+            employe5: []
+        };
+
+        // Initialisation des onglets employés
+        document.querySelectorAll('.employee-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Désactiver tous les onglets
+                document.querySelectorAll('.employee-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.employee-tab-content').forEach(tc => tc.classList.remove('active'));
+                
+                // Activer l'onglet sélectionné
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        function enregistrerBail(employeId) {
+            const employeKey = getEmployeKey(employeId);
+            const date = document.getElementById(`date${employeId}`).value;
+            const client = document.getElementById(`client${employeId}`).value;
+            const interieur = document.getElementById(`interieur${employeId}`).value;
+            const rue = document.getElementById(`rue${employeId}`).value;
+            const garages = document.getElementById(`garages${employeId}`).value;
+            const ca = parseFloat(document.getElementById(`ca${employeId}`).value) || 0;
+            const reduction = parseFloat(document.getElementById(`reduction${employeId}`).value) || 0;
+            const resilie = document.getElementById(`resilie${employeId}`).checked;
+            const valide = document.getElementById(`valide${employeId}`).checked;
+            
+            if (!date || !client || !interieur || !rue) {
+                alert('Veuillez remplir tous les champs obligatoires');
+                return;
+            }
+            
+            const montantReduction = ca * (reduction / 100);
+            const benefice = ca - montantReduction;
+            
+            const bail = {
+                id: Date.now(),
+                date: date,
+                client: client,
+                interieur: interieur,
+                rue: rue,
+                garages: garages,
+                ca: ca,
+                reduction: reduction,
+                montantReduction: montantReduction,
+                benefice: benefice,
+                resilie: resilie,
+                valide: valide
+            };
+            
+            bauxData[employeKey].push(bail);
+            
+            // Mettre à jour l'affichage
+            afficherResultats(employeId, bail);
+            mettreAJourHistorique(employeId);
+            mettreAJourTableauDeBord();
+            sauvegarderDonnees();
+            
+            alert('Bail enregistré avec succès !');
+        }
+
+        function calculerBenefice(employeId) {
+            const ca = parseFloat(document.getElementById(`ca${employeId}`).value) || 0;
+            const reduction = parseFloat(document.getElementById(`reduction${employeId}`).value) || 0;
+            
+            const montantReduction = ca * (reduction / 100);
+            const benefice = ca - montantReduction;
+            
+            document.getElementById(`ca-result${employeId}`).textContent = `${ca.toLocaleString()} $`;
+            document.getElementById(`reduction-result${employeId}`).textContent = `${montantReduction.toLocaleString()} $ (${reduction}%)`;
+            document.getElementById(`benefice${employeId}`).textContent = `${benefice.toLocaleString()} $`;
+            
+            // Mettre à jour le statut
+            const statutElement = document.getElementById(`statut${employeId}`);
+            statutElement.textContent = 'Calculé';
+            statutElement.className = 'badge success';
+        }
+
+        function afficherResultats(employeId, bail) {
+            document.getElementById(`ca-result${employeId}`).textContent = `${bail.ca.toLocaleString()} $`;
+            document.getElementById(`reduction-result${employeId}`).textContent = `${bail.montantReduction.toLocaleString()} $ (${bail.reduction}%)`;
+            document.getElementById(`benefice${employeId}`).textContent = `${bail.benefice.toLocaleString()} $`;
+            
+            const statutElement = document.getElementById(`statut${employeId}`);
+            if (bail.resilie) {
+                statutElement.textContent = 'Résilié';
+                statutElement.className = 'badge danger';
+            } else if (bail.valide) {
+                statutElement.textContent = 'Validé';
+                statutElement.className = 'badge success';
+            } else {
+                statutElement.textContent = 'En attente';
+                statutElement.className = 'badge warning';
+            }
+        }
+
+        function mettreAJourHistorique(employeId) {
+            const employeKey = getEmployeKey(employeId);
+            const historyContainer = document.getElementById(`history${employeId}`);
+            const baux = bauxData[employeKey];
+            
+            if (baux.length === 0) {
+                historyContainer.innerHTML = '<div class="empty-history">Aucun bail enregistré pour le moment</div>';
+                return;
+            }
+            
+            let html = `
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Client</th>
+                            <th>Adresse</th>
+                            <th>CA</th>
+                            <th>Bénéfice</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            baux.forEach(bail => {
+                const statut = bail.resilie ? 'Résilié' : (bail.valide ? 'Validé' : 'En attente');
+                const statutClass = bail.resilie ? 'danger' : (bail.valide ? 'success' : 'warning');
+                
+                html += `
+                    <tr>
+                        <td>${new Date(bail.date).toLocaleDateString('fr-FR')}</td>
+                        <td>${bail.client}</td>
+                        <td>${bail.rue}</td>
+                        <td>${bail.ca.toLocaleString()} $</td>
+                        <td>${bail.benefice.toLocaleString()} $</td>
+                        <td><span class="badge ${statutClass}">${statut}</span></td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn btn-danger btn-small" onclick="supprimerBail('${employeKey}', ${bail.id})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            historyContainer.innerHTML = html;
+        }
+
+        function mettreAJourTableauDeBord() {
+            let totalCA = 0;
+            let totalReduction = 0;
+            let totalBenefice = 0;
+            let bauxValides = 0;
+            let bauxResilies = 0;
+            let totalBaux = 0;
+            
+            Object.values(bauxData).forEach(bauxEmploye => {
+                bauxEmploye.forEach(bail => {
+                    totalCA += bail.ca;
+                    totalReduction += bail.montantReduction;
+                    totalBenefice += bail.benefice;
+                    totalBaux++;
+                    
+                    if (bail.valide) bauxValides++;
+                    if (bail.resilie) bauxResilies++;
+                });
+            });
+            
+            document.getElementById('total-ca').textContent = `${totalCA.toLocaleString()} $`;
+            document.getElementById('total-reduction').textContent = `${totalReduction.toLocaleString()} $`;
+            document.getElementById('total-benefice').textContent = `${totalBenefice.toLocaleString()} $`;
+            document.getElementById('baux-valides').textContent = bauxValides;
+            document.getElementById('baux-resilies').textContent = bauxResilies;
+            document.getElementById('total-baux').textContent = totalBaux;
+            
+            // Mettre à jour l'indicateur de performance
+            const performanceElement = document.getElementById('performance-indicator');
+            if (totalBaux === 0) {
+                performanceElement.textContent = 'Performance: En attente de données';
+            } else {
+                const tauxValidation = (bauxValides / totalBaux) * 100;
+                if (tauxValidation >= 80) {
+                    performanceElement.textContent = `Performance: Excellente (${tauxValidation.toFixed(1)}%)`;
+                    performanceElement.style.color = '#2ecc71';
+                } else if (tauxValidation >= 60) {
+                    performanceElement.textContent = `Performance: Bonne (${tauxValidation.toFixed(1)}%)`;
+                    performanceElement.style.color = '#f39c12';
+                } else {
+                    performanceElement.textContent = `Performance: À améliorer (${tauxValidation.toFixed(1)}%)`;
+                    performanceElement.style.color = '#e74c3c';
+                }
+            }
+        }
+
+        function supprimerBail(employeKey, bailId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce bail ?')) {
+                bauxData[employeKey] = bauxData[employeKey].filter(bail => bail.id !== bailId);
+                
+                // Mettre à jour l'affichage
+                const employeId = getEmployeId(employeKey);
+                mettreAJourHistorique(employeId);
+                mettreAJourTableauDeBord();
+                sauvegarderDonnees();
+            }
+        }
+
+        function reinitialiserFormulaire(employeId) {
+            document.getElementById(`date${employeId}`).value = '';
+            document.getElementById(`client${employeId}`).value = '';
+            document.getElementById(`interieur${employeId}`).value = '';
+            document.getElementById(`rue${employeId}`).value = '';
+            document.getElementById(`garages${employeId}`).value = '0';
+            document.getElementById(`ca${employeId}`).value = '';
+            document.getElementById(`reduction${employeId}`).value = '0';
+            document.getElementById(`resilie${employeId}`).checked = false;
+            document.getElementById(`valide${employeId}`).checked = false;
+            
+            document.getElementById(`ca-result${employeId}`).textContent = '0 $';
+            document.getElementById(`reduction-result${employeId}`).textContent = '0 $ (0%)';
+            document.getElementById(`benefice${employeId}`).textContent = '0 $';
+            document.getElementById(`statut${employeId}`).textContent = 'En cours';
+            document.getElementById(`statut${employeId}`).className = 'badge warning';
+        }
+
+        function getEmployeKey(employeId) {
+            switch(employeId) {
+                case 1: return 'KyleMiller';
+                case 2: return 'employe2';
+                case 3: return 'employe3';
+                case 4: return 'employe4';
+                case 5: return 'employe5';
+                default: return 'KyleMiller';
+            }
+        }
+
+        function getEmployeId(employeKey) {
+            switch(employeKey) {
+                case 'KyleMiller': return 1;
+                case 'employe2': return 2;
+                case 'employe3': return 3;
+                case 'employe4': return 4;
+                case 'employe5': return 5;
+                default: return 1;
+            }
+        }
+
+        function sauvegarderDonnees() {
+            localStorage.setItem('bauxData', JSON.stringify(bauxData));
+        }
+
+        function chargerDonnees() {
+            const savedData = localStorage.getItem('bauxData');
+            if (savedData) {
+                bauxData = JSON.parse(savedData);
+                
+                // Mettre à jour l'affichage pour tous les employés
+                for (let i = 1; i <= 5; i++) {
+                    mettreAJourHistorique(i);
+                }
+                mettreAJourTableauDeBord();
+            }
+        }
+
+        // Initialisation au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Définir la date par défaut sur aujourd'hui
+            const today = new Date().toISOString().split('T')[0];
+            for (let i = 1; i <= 5; i++) {
+                document.getElementById(`date${i}`).value = today;
+            }
+            
+            chargerDonnees();
+        });
+    </script>
+</body>
+</html>

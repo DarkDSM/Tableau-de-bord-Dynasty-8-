@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails de Location et Achat</title>
+    <title>Détails Location/Achat - Agence Immobilière</title>
     <style>
         :root {
             --primary-color: #3498db;
@@ -23,35 +23,72 @@
         }
         
         body {
-            background-color: #f5f7fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: var(--dark-color);
             line-height: 1.6;
-            padding: 20px;
+            min-height: 100vh;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 20px auto;
         }
         
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
+            padding: 30px;
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
         }
         
         h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .agency-logo {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .content {
+            padding: 30px;
         }
         
         .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
         }
         
         .tabs-container {
@@ -112,22 +149,25 @@
             height: auto;
             display: block;
             margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         .image-link {
             display: inline-block;
             margin-top: 15px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             background-color: var(--primary-color);
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
             font-weight: 600;
             transition: background-color 0.3s;
         }
         
         .image-link:hover {
             background-color: #2980b9;
+            transform: translateY(-2px);
         }
         
         .form-container {
@@ -135,12 +175,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            .form-container {
-                grid-template-columns: 1fr;
-            }
+            padding: 30px;
         }
         
         .form-section {
@@ -157,32 +192,6 @@
             border-bottom: 2px solid var(--light-color);
         }
         
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--dark-color);
-        }
-        
-        select, input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-        }
-        
         .tax-section {
             background-color: white;
             padding: 25px;
@@ -195,12 +204,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            .tax-grid {
-                grid-template-columns: 1fr;
-            }
         }
         
         .tax-input {
@@ -223,12 +226,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 30px;
-        }
-        
-        @media (max-width: 768px) {
-            .results-container {
-                grid-template-columns: 1fr;
-            }
+            padding: 0 30px;
         }
         
         .results-section {
@@ -325,30 +323,37 @@
             font-weight: 700;
         }
         
+        .info-text {
+            font-style: italic;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
         .actions {
             display: flex;
             justify-content: center;
             gap: 15px;
             margin-top: 25px;
+            padding: 0 30px 30px;
         }
         
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
-            background-color: var(--primary-color);
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), #2980b9);
             color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
         }
         
-        .btn-primary:hover {
-            background-color: #2980b9;
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
         }
         
         .btn-secondary {
@@ -360,183 +365,256 @@
             background-color: #d5dbdb;
         }
         
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--dark-color);
+            font-size: 1.1rem;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            transform: translateY(-2px);
+        }
+        
         footer {
             text-align: center;
             margin-top: 40px;
             padding: 20px;
             color: var(--dark-color);
             opacity: 0.7;
+            border-top: 1px solid #ecf0f1;
         }
         
-        .info-text {
-            font-style: italic;
-            margin-top: 10px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 1024px) {
+            .form-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tax-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Détails de Location et Achat</h1>
-            <p class="subtitle">Configurez les paramètres et calculez les coûts automatiquement</p>
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i>
+                Retour
+            </a>
+            <div class="agency-logo">🏠</div>
+            <h1>Détails Location/Achat</h1>
+            <p>Calculez les coûts de location et d'achat avec taxes et options</p>
         </header>
         
-        <div class="tabs-container">
-            <div class="tabs">
-                <button class="tab active" data-tab="main">Calculatrice</button>
-                <button class="tab" data-tab="endroit">Endroit convoitable</button>
-                <button class="tab" data-tab="zone">Zone d'habitation</button>
-            </div>
+        <div class="content">
+            <p class="subtitle">Configurez les paramètres et calculez les coûts automatiquement</p>
             
-            <div id="main-tab" class="tab-content active">
-                <div class="form-container">
-                    <div class="form-section">
-                        <h2>Sélection des Options</h2>
-                        
-                        <div class="form-group">
-                            <label for="interior-type">Type d'intérieur</label>
-                            <select id="interior-type">
-                                <option value="">Sélectionnez un type d'intérieur</option>
-                                <!-- Les options seront ajoutées dynamiquement par JavaScript -->
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="zone">Zone</label>
-                            <select id="zone">
-                                <option value="">Sélectionnez une zone</option>
-                                <option value="Classe 1">Classe 1</option>
-                                <option value="Classe 2">Classe 2</option>
-                                <option value="Classe 3">Classe 3</option>
-                                <option value="Classe 4">Classe 4</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="garage">Garage</label>
-                            <select id="garage">
-                                <option value="">Sélectionnez un garage</option>
-                                <option value="0 place">0 place</option>
-                                <option value="2 place">2 place</option>
-                                <option value="4 place">4 place</option>
-                                <option value="6 place">6 place</option>
-                                <option value="12 place">12 place</option>
-                                <option value="24 place">24 place</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-section">
-                        <h2>Configuration des Taxes</h2>
-                        
-                        <div class="tax-grid">
-                            <div class="form-group">
-                                <div class="tax-input">
-                                    <input type="number" id="location-tax" min="0" max="100" value="10">
-                                    <span>% Taxe de location</span>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <div class="tax-input">
-                                    <input type="number" id="purchase-tax" min="0" max="100" value="5">
-                                    <span>% Taxe d'achat</span>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="info-text">
-                            Les calculs se mettent à jour automatiquement lorsque vous modifiez les options.
-                        </div>
-                    </div>
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab active" data-tab="main">Calculatrice</button>
+                    <button class="tab" data-tab="endroit">Endroit convoitable</button>
+                    <button class="tab" data-tab="zone">Zone d'habitation</button>
                 </div>
                 
-                <div class="results-container">
-                    <div class="results-section rental">
-                        <h2>Résultats pour la Location</h2>
-                        <div class="results-grid">
-                            <div class="result-card">
-                                <h3>Prix de Base</h3>
-                                <div class="result-value" id="rental-base-price">$0</div>
+                <div id="main-tab" class="tab-content active">
+                    <div class="form-container">
+                        <div class="form-section">
+                            <h2>Sélection des Options</h2>
+                            
+                            <div class="form-group">
+                                <label for="interior-type">Type d'intérieur</label>
+                                <select id="interior-type">
+                                    <option value="">Sélectionnez un type d'intérieur</option>
+                                    <!-- Les options seront ajoutées dynamiquement par JavaScript -->
+                                </select>
                             </div>
                             
-                            <div class="result-card">
-                                <h3>Taxe de Location</h3>
-                                <div class="result-value" id="rental-tax-amount">$0</div>
+                            <div class="form-group">
+                                <label for="zone">Zone</label>
+                                <select id="zone">
+                                    <option value="">Sélectionnez une zone</option>
+                                    <option value="Classe 1">Classe 1</option>
+                                    <option value="Classe 2">Classe 2</option>
+                                    <option value="Classe 3">Classe 3</option>
+                                    <option value="Classe 4">Classe 4</option>
+                                </select>
                             </div>
                             
-                            <div class="weight-card">
-                                <h3>Poids Maximum du Coffre</h3>
-                                <div class="weight-value" id="max-weight">0 kg</div>
+                            <div class="form-group">
+                                <label for="garage">Garage</label>
+                                <select id="garage">
+                                    <option value="">Sélectionnez un garage</option>
+                                    <option value="0 place">0 place</option>
+                                    <option value="2 place">2 place</option>
+                                    <option value="4 place">4 place</option>
+                                    <option value="6 place">6 place</option>
+                                    <option value="12 place">12 place</option>
+                                    <option value="24 place">24 place</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <h2>Configuration des Taxes</h2>
+                            
+                            <div class="tax-grid">
+                                <div class="form-group">
+                                    <div class="tax-input">
+                                        <input type="number" id="location-tax" min="0" max="100" value="10">
+                                        <span>% Taxe de location</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="tax-input">
+                                        <input type="number" id="purchase-tax" min="0" max="100" value="5">
+                                        <span>% Taxe d'achat</span>
+                                    </div>
+                                </div>
                             </div>
                             
-                            <div class="total-card">
-                                <h3>Prix Final de Location</h3>
-                                <div class="total-value" id="final-rental-price">$0</div>
+                            <div class="info-text">
+                                Les calculs se mettent à jour automatiquement lorsque vous modifiez les options.
                             </div>
                         </div>
                     </div>
                     
-                    <div class="results-section purchase">
-                        <h2>Résultats pour l'Achat</h2>
-                        <div class="results-grid">
-                            <div class="result-card">
-                                <h3>Prix du Coffre</h3>
-                                <div class="result-value" id="purchase-coffre-price">$0</div>
+                    <div class="results-container">
+                        <div class="results-section rental">
+                            <h2>Résultats pour la Location</h2>
+                            <div class="results-grid">
+                                <div class="result-card">
+                                    <h3>Prix de Base</h3>
+                                    <div class="result-value" id="rental-base-price">$0</div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <h3>Taxe de Location</h3>
+                                    <div class="result-value" id="rental-tax-amount">$0</div>
+                                </div>
+                                
+                                <div class="weight-card">
+                                    <h3>Poids Maximum du Coffre</h3>
+                                    <div class="weight-value" id="max-weight">0 kg</div>
+                                </div>
+                                
+                                <div class="total-card">
+                                    <h3>Prix Final de Location</h3>
+                                    <div class="total-value" id="final-rental-price">$0</div>
+                                </div>
                             </div>
-                            
-                            <div class="result-card">
-                                <h3>Prix du Garage</h3>
-                                <div class="result-value" id="purchase-garage-price">$0</div>
-                            </div>
-                            
-                            <div class="result-card">
-                                <h3>Prix de la Zone</h3>
-                                <div class="result-value" id="purchase-zone-price">$0</div>
-                            </div>
-                            
-                            <div class="result-card">
-                                <h3>Prix de la Catégorie</h3>
-                                <div class="result-value" id="purchase-category-price">$0</div>
-                            </div>
-                            
-                            <div class="result-card">
-                                <h3>Taxe d'Achat</h3>
-                                <div class="result-value" id="purchase-tax-amount">$0</div>
-                            </div>
-                            
-                            <div class="total-card">
-                                <h3>Prix Final d'Achat</h3>
-                                <div class="total-value" id="final-purchase-price">$0</div>
+                        </div>
+                        
+                        <div class="results-section purchase">
+                            <h2>Résultats pour l'Achat</h2>
+                            <div class="results-grid">
+                                <div class="result-card">
+                                    <h3>Prix du Coffre</h3>
+                                    <div class="result-value" id="purchase-coffre-price">$0</div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <h3>Prix du Garage</h3>
+                                    <div class="result-value" id="purchase-garage-price">$0</div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <h3>Prix de la Zone</h3>
+                                    <div class="result-value" id="purchase-zone-price">$0</div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <h3>Prix de la Catégorie</h3>
+                                    <div class="result-value" id="purchase-category-price">$0</div>
+                                </div>
+                                
+                                <div class="result-card">
+                                    <h3>Taxe d'Achat</h3>
+                                    <div class="result-value" id="purchase-tax-amount">$0</div>
+                                </div>
+                                
+                                <div class="total-card">
+                                    <h3>Prix Final d'Achat</h3>
+                                    <div class="total-value" id="final-purchase-price">$0</div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="actions">
+                        <button class="btn btn-secondary" id="reset-btn">Réinitialiser</button>
+                    </div>
                 </div>
                 
-                <div class="actions">
-                    <button class="btn-secondary" id="reset-btn">Réinitialiser</button>
+                <div id="endroit-tab" class="tab-content">
+                    <div class="image-container">
+                        <h2>Endroits Convoitables</h2>
+                        <p>Les propriétés les plus recherchées par nos clients.</p>
+                        <img src="Endroitmaps.png" alt="Endroit convoitable">
+                        <p class="info-text">Carte des endroits les plus demandés - Mise à jour hebdomadaire</p>
+                    </div>
+                </div>
+                
+                <div id="zone-tab" class="tab-content">
+                    <div class="image-container">
+                        <h2>Zones d'Habitation</h2>
+                        <p>Carte des différentes zones résidentielles disponibles.</p>
+                        <img src="Zonemaps.jpg" alt="Zone d'habitation">
+                        <p class="info-text">Classification des zones par prestige et prix</p>
+                        <a href="https://gtamap.xyz" target="_blank" class="image-link">
+                            <i class="fas fa-external-link-alt"></i> Voir sur gtamap.xyz
+                        </a>
+                    </div>
                 </div>
             </div>
             
-            <div id="endroit-tab" class="tab-content">
-                <div class="image-container">
-                    <img src="Endroitmaps.png" alt="Endroit convoitable">
-                </div>
-            </div>
-            
-            <div id="zone-tab" class="tab-content">
-                <div class="image-container">
-                    <img src="Zonemaps.jpg" alt="Zone d'habitation">
-                    <a href="https://gtamap.xyz" target="_blank" class="image-link">Voir sur gtamap.xyz</a>
-                </div>
-            </div>
+            <footer>
+                <p>Interface de gestion des locations et achats - Agence Immobilière</p>
+            </footer>
         </div>
-        
-        <footer>
-            <p>Interface de gestion des locations et achats - Tous droits réservés</p>
-        </footer>
     </div>
 
     <script>
@@ -783,8 +861,8 @@
             interiorTypeSelect.value = "";
             zoneSelect.value = "";
             garageSelect.value = "";
-            locationTaxInput.value = "0";
-            purchaseTaxInput.value = "0";
+            locationTaxInput.value = "10";
+            purchaseTaxInput.value = "5";
             
             // Réinitialiser l'affichage des résultats
             rentalBasePriceElement.textContent = "$0";
@@ -811,8 +889,18 @@
         resetButton.addEventListener('click', resetForm);
         
         // Initialisation
-        populateInteriorTypes();
-        resetForm();
+        document.addEventListener('DOMContentLoaded', function() {
+            populateInteriorTypes();
+            resetForm();
+            
+            // Définir des valeurs par défaut pour tester
+            setTimeout(() => {
+                interiorTypeSelect.value = "Appartement Moderne 1";
+                zoneSelect.value = "Classe 2";
+                garageSelect.value = "2 place";
+                calculatePrices();
+            }, 100);
+        });
     </script>
 </body>
 </html>

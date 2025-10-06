@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agence Immobilière - Accueil</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .welcome-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            text-align: center;
+            padding: 50px 30px;
+        }
+        
+        .agency-logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .module-card {
+            background: linear-gradient(135deg, var(--primary), #34495e);
+            color: white;
+            padding: 35px 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .module-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .module-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .module-card.salaires { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .module-card.baux { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .module-card.location { background: linear-gradient(135deg, #9b59b6, #8e44ad); }
+        .module-card.grille { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-card">
+            <div class="agency-logo">🏢</div>
+            <h1>Agence Immobilière</h1>
+            <p class="subtitle">Tableau de Bord Complet - Gestion d'Entreprise GTA RP</p>
+            
+            <div class="modules-grid">
+                <a href="salaires.html" class="module-card salaires">
+                    <div class="module-icon">💰</div>
+                    <div class="module-title">Gestion des Salaires</div>
+                    <div class="module-description">
+                        Gérez les salaires, commissions, dépenses et calculez les bénéfices hebdomadaires
+                    </div>
+                </a>
+                
+                <a href="baux.html" class="module-card baux">
+                    <div class="module-icon">📑</div>
+                    <div class="module-title">Gestion des Baux</div>
+                    <div class="module-description">
+                        Créez et gérez les baux immobiliers, suivez les performances des employés
+                    </div>
+                </a>
+                
+                <a href="location.html" class="module-card location">
+                    <div class="module-icon">🏠</div>
+                    <div class="module-title">Détails Location/Achat</div>
+                    <div class="module-description">
+                        Calculez les coûts de location et d'achat avec taxes et options
+                    </div>
+                </a>
+                
+                <a href="grille.html" class="module-card grille">
+                    <div class="module-icon">📊</div>
+                    <div class="module-title">Grille des Salaires</div>
+                    <div class="module-description">
+                        Consultez la structure complète des salaires et responsabilités
+                    </div>
+                </a>
+            </div>
+            
+            <footer>
+                <p>Document interne - Dernière mise à jour: <span id="current-date"></span></p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');
+    </script>
+</body>
+</html>

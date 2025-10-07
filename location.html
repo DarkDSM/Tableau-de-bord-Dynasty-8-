@@ -503,14 +503,14 @@
                             <div class="tax-grid">
                                 <div class="form-group">
                                     <div class="tax-input">
-                                        <input type="number" id="location-tax" min="0" max="100" value="10">
+                                        <input type="number" id="location-tax" min="0" max="100" value="0">
                                         <span>% Taxe de location</span>
                                     </div>
                                 </div>
                                 
                                 <div class="form-group">
                                     <div class="tax-input">
-                                        <input type="number" id="purchase-tax" min="0" max="100" value="5">
+                                        <input type="number" id="purchase-tax" min="0" max="100" value="0">
                                         <span>% Taxe d'achat</span>
                                     </div>
                                 </div>
@@ -802,12 +802,15 @@
             
             // Vérification que les sélections obligatoires sont faites
             if (!interiorType || !zone || !garage) {
+                // Si une sélection est manquante, réinitialiser tous les résultats à 0
+                resetResults();
                 return;
             }
             
             // Trouver les données de l'intérieur sélectionné
             const selectedInterior = interiorData.find(item => item.name === interiorType);
             if (!selectedInterior) {
+                resetResults();
                 return;
             }
             
@@ -856,15 +859,8 @@
             maxWeightElement.textContent = `${selectedInterior.maxWeight} kg`;
         }
         
-        // Fonction de réinitialisation
-        function resetForm() {
-            interiorTypeSelect.value = "";
-            zoneSelect.value = "";
-            garageSelect.value = "";
-            locationTaxInput.value = "10";
-            purchaseTaxInput.value = "5";
-            
-            // Réinitialiser l'affichage des résultats
+        // Fonction pour réinitialiser les résultats à 0
+        function resetResults() {
             rentalBasePriceElement.textContent = "$0";
             rentalTaxAmountElement.textContent = "$0";
             finalRentalPriceElement.textContent = "$0";
@@ -879,6 +875,17 @@
             maxWeightElement.textContent = "0 kg";
         }
         
+        // Fonction de réinitialisation complète
+        function resetForm() {
+            interiorTypeSelect.value = "";
+            zoneSelect.value = "";
+            garageSelect.value = "";
+            locationTaxInput.value = "0";
+            purchaseTaxInput.value = "0";
+            
+            resetResults();
+        }
+        
         // Écouteurs d'événements pour le calcul automatique
         interiorTypeSelect.addEventListener('change', calculatePrices);
         zoneSelect.addEventListener('change', calculatePrices);
@@ -891,15 +898,7 @@
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
             populateInteriorTypes();
-            resetForm();
-            
-            // Définir des valeurs par défaut pour tester
-            setTimeout(() => {
-                interiorTypeSelect.value = "Appartement Moderne 1";
-                zoneSelect.value = "Classe 2";
-                garageSelect.value = "2 place";
-                calculatePrices();
-            }, 100);
+            resetForm(); // Tout est réinitialisé à zéro au chargement
         });
     </script>
 </body>

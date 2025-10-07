@@ -291,6 +291,18 @@
             box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
         }
 
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+            color: white;
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.3);
+        }
+
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(23, 162, 184, 0.4);
+        }
+
         .results {
             background: var(--light);
             padding: 20px;
@@ -480,6 +492,251 @@
             font-weight: bold;
         }
 
+        /* Upload d'image */
+        .image-upload {
+            margin-top: 15px;
+            padding: 15px;
+            border: 2px dashed #e1e8ed;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .image-upload:hover {
+            border-color: var(--secondary);
+            background: #f0f7ff;
+        }
+
+        .image-upload label {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+        }
+
+        .image-upload i {
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .remove-image {
+            margin-top: 10px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .remove-image:hover {
+            background: #c0392b;
+        }
+
+        /* Modal pour l'aperçu du bail */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+        }
+
+        .preview-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .preview-section h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .preview-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .preview-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .preview-label {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .preview-value {
+            color: var(--dark);
+        }
+
+        .preview-image {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .preview-image img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .preview-image img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Modal pour l'image en grand */
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+
+        .image-modal-content img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* FIX: La croix doit être au-dessus du contenu */
+        .close-image-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1; /* Assure que la taille de la police définit la hauteur */
+        }
+
+        .close-image-modal:hover {
+            color: var(--secondary);
+        }
+
+        .image-zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .zoom-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.3s;
+        }
+
+        .zoom-btn:hover {
+            background: #2980b9;
+        }
+
         @media (max-width: 1024px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -534,7 +791,6 @@
                     <div class="tab" data-tab="employe5">Employé 5</div>
                 </div>
 
-                <!-- Contenu pour Employé 1 -->
                 <div id="employe1" class="tab-content active">
                     <div class="form-grid">
                         <div class="form-group">
@@ -570,15 +826,30 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="reduction1">Réduction (%)</label>
+                            <div class="percentage-input">
+                                <input type="number" id="reduction1" min="0" max="100" step="0.1" placeholder="0" value="0">
+                                <span class="percentage-symbol">%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="ca1">Chiffre d'Affaires ($)</label>
                             <input type="number" id="ca1" min="0" step="0.01" placeholder="Montant du CA">
                         </div>
                         
                         <div class="form-group">
-                            <label for="reduction1">Réduction (%)</label>
-                            <div class="percentage-input">
-                                <input type="number" id="reduction1" min="0" max="100" step="0.1" placeholder="0" value="0">
-                                <span class="percentage-symbol">%</span>
+                            <div class="image-upload">
+                                <label for="image1">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Ajouter une image</span>
+                                    <small>(Format JPG, PNG - Max 5MB)</small>
+                                </label>
+                                <input type="file" id="image1" accept="image/*">
+                                <div class="image-preview" id="imagePreview1">
+                                    <img src="" alt="Aperçu de l'image">
+                                    <button type="button" class="remove-image" onclick="supprimerImage(1)">Supprimer l'image</button>
+                                </div>
                             </div>
                         </div>
                         
@@ -635,7 +906,6 @@
                     </div>
                 </div>
 
-                <!-- Contenu pour Employé 2 -->
                 <div id="employe2" class="tab-content">
                     <div class="form-grid">
                         <div class="form-group">
@@ -671,15 +941,30 @@
                         </div>
                         
                         <div class="form-group">
+                            <label for="reduction2">Réduction (%)</label>
+                            <div class="percentage-input">
+                                <input type="number" id="reduction2" min="0" max="100" step="0.1" placeholder="0" value="0">
+                                <span class="percentage-symbol">%</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             <label for="ca2">Chiffre d'Affaires ($)</label>
                             <input type="number" id="ca2" min="0" step="0.01" placeholder="Montant du CA">
                         </div>
                         
                         <div class="form-group">
-                            <label for="reduction2">Réduction (%)</label>
-                            <div class="percentage-input">
-                                <input type="number" id="reduction2" min="0" max="100" step="0.1" placeholder="0" value="0">
-                                <span class="percentage-symbol">%</span>
+                            <div class="image-upload">
+                                <label for="image2">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Ajouter une image</span>
+                                    <small>(Format JPG, PNG - Max 5MB)</small>
+                                </label>
+                                <input type="file" id="image2" accept="image/*">
+                                <div class="image-preview" id="imagePreview2">
+                                    <img src="" alt="Aperçu de l'image">
+                                    <button type="button" class="remove-image" onclick="supprimerImage(2)">Supprimer l'image</button>
+                                </div>
                             </div>
                         </div>
                         
@@ -736,307 +1021,94 @@
                     </div>
                 </div>
 
-                <!-- Contenu pour Employé 3 -->
                 <div id="employe3" class="tab-content">
                     <div class="form-grid">
+                        <div class="form-group"><label for="date3">Date de création du bail</label><input type="date" id="date3"></div>
+                        <div class="form-group"><label for="client3">Client / Locataire</label><input type="text" id="client3" placeholder="Nom du client"></div>
+                        <div class="form-group full-width"><label for="interieur3">Intérieur choisi</label><input type="text" id="interieur3" placeholder="Description de l'intérieur"></div>
+                        <div class="form-group full-width"><label for="rue3">Rue du bien</label><input type="text" id="rue3" placeholder="Adresse du bien"></div>
+                        <div class="form-group"><label for="garages3">Nombre de garages</label><select id="garages3"><option value="0">0</option><option value="2">2</option><option value="4">4</option><option value="6">6</option><option value="12">12</option><option value="24">24</option></select></div>
+                        <div class="form-group"><label for="reduction3">Réduction (%)</label><div class="percentage-input"><input type="number" id="reduction3" min="0" max="100" step="0.1" placeholder="0" value="0"><span class="percentage-symbol">%</span></div></div>
+                        <div class="form-group"><label for="ca3">Chiffre d'Affaires ($)</label><input type="number" id="ca3" min="0" step="0.01" placeholder="Montant du CA"></div>
                         <div class="form-group">
-                            <label for="date3">Date de création du bail</label>
-                            <input type="date" id="date3">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="client3">Client / Locataire</label>
-                            <input type="text" id="client3" placeholder="Nom du client">
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="interieur3">Intérieur choisi</label>
-                            <input type="text" id="interieur3" placeholder="Description de l'intérieur">
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="rue3">Rue du bien</label>
-                            <input type="text" id="rue3" placeholder="Adresse du bien">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="garages3">Nombre de garages</label>
-                            <select id="garages3">
-                                <option value="0">0</option>
-                                <option value="2">2</option>
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="12">12</option>
-                                <option value="24">24</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="ca3">Chiffre d'Affaires ($)</label>
-                            <input type="number" id="ca3" min="0" step="0.01" placeholder="Montant du CA">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reduction3">Réduction (%)</label>
-                            <div class="percentage-input">
-                                <input type="number" id="reduction3" min="0" max="100" step="0.1" placeholder="0" value="0">
-                                <span class="percentage-symbol">%</span>
+                            <div class="image-upload">
+                                <label for="image3"><i class="fas fa-cloud-upload-alt"></i><span>Ajouter une image</span><small>(Format JPG, PNG - Max 5MB)</small></label>
+                                <input type="file" id="image3" accept="image/*">
+                                <div class="image-preview" id="imagePreview3"><img src="" alt="Aperçu de l'image"><button type="button" class="remove-image" onclick="supprimerImage(3)">Supprimer l'image</button></div>
                             </div>
                         </div>
-                        
                         <div class="form-group full-width">
-                            <div class="checkbox-group important">
-                                <input type="checkbox" id="resilie3">
-                                <label for="resilie3">Bail résilié</label>
-                            </div>
-                            
-                            <div class="checkbox-group validated">
-                                <input type="checkbox" id="valide3">
-                                <label for="valide3">Validé par le patron</label>
-                            </div>
+                            <div class="checkbox-group important"><input type="checkbox" id="resilie3"><label for="resilie3">Bail résilié</label></div>
+                            <div class="checkbox-group validated"><input type="checkbox" id="valide3"><label for="valide3">Validé par le patron</label></div>
                         </div>
                     </div>
-                    
                     <div class="actions">
-                        <button class="btn btn-primary" onclick="enregistrerBail(3)">
-                            <i class="fas fa-save"></i> Enregistrer le bail
-                        </button>
-                        <button class="btn btn-success" onclick="calculerBenefice(3)">
-                            <i class="fas fa-calculator"></i> Calculer
-                        </button>
-                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(3)">
-                            <i class="fas fa-redo"></i> Nouveau
-                        </button>
+                        <button class="btn btn-primary" onclick="enregistrerBail(3)"><i class="fas fa-save"></i> Enregistrer le bail</button>
+                        <button class="btn btn-success" onclick="calculerBenefice(3)"><i class="fas fa-calculator"></i> Calculer</button>
+                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(3)"><i class="fas fa-redo"></i> Nouveau</button>
                     </div>
-                    
-                    <div class="results">
-                        <h3>Résultats pour Employé 3</h3>
-                        <div class="result-item">
-                            <span>Chiffre d'Affaires:</span>
-                            <span id="ca-result3" class="result-value ca-value">0 $</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Réduction:</span>
-                            <span id="reduction-result3" class="result-value reduction-value">0 $ (0%)</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Bénéfice:</span>
-                            <span id="benefice3" class="result-value benefice-value">0 $</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Statut:</span>
-                            <span id="statut3" class="badge warning">En cours</span>
-                        </div>
-                    </div>
-                    
-                    <div class="history-section">
-                        <h3><i class="fas fa-history"></i> Historique des baux</h3>
-                        <div id="history3">
-                            <div class="empty-history">Aucun bail enregistré pour le moment</div>
-                        </div>
-                    </div>
+                    <div class="results"><h3>Résultats pour Employé 3</h3><div class="result-item"><span>Chiffre d'Affaires:</span><span id="ca-result3" class="result-value ca-value">0 $</span></div><div class="result-item"><span>Réduction:</span><span id="reduction-result3" class="result-value reduction-value">0 $ (0%)</span></div><div class="result-item"><span>Bénéfice:</span><span id="benefice3" class="result-value benefice-value">0 $</span></div><div class="result-item"><span>Statut:</span><span id="statut3" class="badge warning">En cours</span></div></div>
+                    <div class="history-section"><h3><i class="fas fa-history"></i> Historique des baux</h3><div id="history3"><div class="empty-history">Aucun bail enregistré pour le moment</div></div></div>
                 </div>
 
-                <!-- Contenu pour Employé 4 -->
                 <div id="employe4" class="tab-content">
                     <div class="form-grid">
+                        <div class="form-group"><label for="date4">Date de création du bail</label><input type="date" id="date4"></div>
+                        <div class="form-group"><label for="client4">Client / Locataire</label><input type="text" id="client4" placeholder="Nom du client"></div>
+                        <div class="form-group full-width"><label for="interieur4">Intérieur choisi</label><input type="text" id="interieur4" placeholder="Description de l'intérieur"></div>
+                        <div class="form-group full-width"><label for="rue4">Rue du bien</label><input type="text" id="rue4" placeholder="Adresse du bien"></div>
+                        <div class="form-group"><label for="garages4">Nombre de garages</label><select id="garages4"><option value="0">0</option><option value="2">2</option><option value="4">4</option><option value="6">6</option><option value="12">12</option><option value="24">24</option></select></div>
+                        <div class="form-group"><label for="reduction4">Réduction (%)</label><div class="percentage-input"><input type="number" id="reduction4" min="0" max="100" step="0.1" placeholder="0" value="0"><span class="percentage-symbol">%</span></div></div>
+                        <div class="form-group"><label for="ca4">Chiffre d'Affaires ($)</label><input type="number" id="ca4" min="0" step="0.01" placeholder="Montant du CA"></div>
                         <div class="form-group">
-                            <label for="date4">Date de création du bail</label>
-                            <input type="date" id="date4">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="client4">Client / Locataire</label>
-                            <input type="text" id="client4" placeholder="Nom du client">
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="interieur4">Intérieur choisi</label>
-                            <input type="text" id="interieur4" placeholder="Description de l'intérieur">
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="rue4">Rue du bien</label>
-                            <input type="text" id="rue4" placeholder="Adresse du bien">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="garages4">Nombre de garages</label>
-                            <select id="garages4">
-                                <option value="0">0</option>
-                                <option value="2">2</option>
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="12">12</option>
-                                <option value="24">24</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="ca4">Chiffre d'Affaires ($)</label>
-                            <input type="number" id="ca4" min="0" step="0.01" placeholder="Montant du CA">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reduction4">Réduction (%)</label>
-                            <div class="percentage-input">
-                                <input type="number" id="reduction4" min="0" max="100" step="0.1" placeholder="0" value="0">
-                                <span class="percentage-symbol">%</span>
+                            <div class="image-upload">
+                                <label for="image4"><i class="fas fa-cloud-upload-alt"></i><span>Ajouter une image</span><small>(Format JPG, PNG - Max 5MB)</small></label>
+                                <input type="file" id="image4" accept="image/*">
+                                <div class="image-preview" id="imagePreview4"><img src="" alt="Aperçu de l'image"><button type="button" class="remove-image" onclick="supprimerImage(4)">Supprimer l'image</button></div>
                             </div>
                         </div>
-                        
                         <div class="form-group full-width">
-                            <div class="checkbox-group important">
-                                <input type="checkbox" id="resilie4">
-                                <label for="resilie4">Bail résilié</label>
-                            </div>
-                            
-                            <div class="checkbox-group validated">
-                                <input type="checkbox" id="valide4">
-                                <label for="valide4">Validé par le patron</label>
-                            </div>
+                            <div class="checkbox-group important"><input type="checkbox" id="resilie4"><label for="resilie4">Bail résilié</label></div>
+                            <div class="checkbox-group validated"><input type="checkbox" id="valide4"><label for="valide4">Validé par le patron</label></div>
                         </div>
                     </div>
-                    
                     <div class="actions">
-                        <button class="btn btn-primary" onclick="enregistrerBail(4)">
-                            <i class="fas fa-save"></i> Enregistrer le bail
-                        </button>
-                        <button class="btn btn-success" onclick="calculerBenefice(4)">
-                            <i class="fas fa-calculator"></i> Calculer
-                        </button>
-                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(4)">
-                            <i class="fas fa-redo"></i> Nouveau
-                        </button>
+                        <button class="btn btn-primary" onclick="enregistrerBail(4)"><i class="fas fa-save"></i> Enregistrer le bail</button>
+                        <button class="btn btn-success" onclick="calculerBenefice(4)"><i class="fas fa-calculator"></i> Calculer</button>
+                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(4)"><i class="fas fa-redo"></i> Nouveau</button>
                     </div>
-                    
-                    <div class="results">
-                        <h3>Résultats pour Employé 4</h3>
-                        <div class="result-item">
-                            <span>Chiffre d'Affaires:</span>
-                            <span id="ca-result4" class="result-value ca-value">0 $</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Réduction:</span>
-                            <span id="reduction-result4" class="result-value reduction-value">0 $ (0%)</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Bénéfice:</span>
-                            <span id="benefice4" class="result-value benefice-value">0 $</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Statut:</span>
-                            <span id="statut4" class="badge warning">En cours</span>
-                        </div>
-                    </div>
-                    
-                    <div class="history-section">
-                        <h3><i class="fas fa-history"></i> Historique des baux</h3>
-                        <div id="history4">
-                            <div class="empty-history">Aucun bail enregistré pour le moment</div>
-                        </div>
-                    </div>
+                    <div class="results"><h3>Résultats pour Employé 4</h3><div class="result-item"><span>Chiffre d'Affaires:</span><span id="ca-result4" class="result-value ca-value">0 $</span></div><div class="result-item"><span>Réduction:</span><span id="reduction-result4" class="result-value reduction-value">0 $ (0%)</span></div><div class="result-item"><span>Bénéfice:</span><span id="benefice4" class="result-value benefice-value">0 $</span></div><div class="result-item"><span>Statut:</span><span id="statut4" class="badge warning">En cours</span></div></div>
+                    <div class="history-section"><h3><i class="fas fa-history"></i> Historique des baux</h3><div id="history4"><div class="empty-history">Aucun bail enregistré pour le moment</div></div></div>
                 </div>
 
-                <!-- Contenu pour Employé 5 -->
                 <div id="employe5" class="tab-content">
                     <div class="form-grid">
+                        <div class="form-group"><label for="date5">Date de création du bail</label><input type="date" id="date5"></div>
+                        <div class="form-group"><label for="client5">Client / Locataire</label><input type="text" id="client5" placeholder="Nom du client"></div>
+                        <div class="form-group full-width"><label for="interieur5">Intérieur choisi</label><input type="text" id="interieur5" placeholder="Description de l'intérieur"></div>
+                        <div class="form-group full-width"><label for="rue5">Rue du bien</label><input type="text" id="rue5" placeholder="Adresse du bien"></div>
+                        <div class="form-group"><label for="garages5">Nombre de garages</label><select id="garages5"><option value="0">0</option><option value="2">2</option><option value="4">4</option><option value="6">6</option><option value="12">12</option><option value="24">24</option></select></div>
+                        <div class="form-group"><label for="reduction5">Réduction (%)</label><div class="percentage-input"><input type="number" id="reduction5" min="0" max="100" step="0.1" placeholder="0" value="0"><span class="percentage-symbol">%</span></div></div>
+                        <div class="form-group"><label for="ca5">Chiffre d'Affaires ($)</label><input type="number" id="ca5" min="0" step="0.01" placeholder="Montant du CA"></div>
                         <div class="form-group">
-                            <label for="date5">Date de création du bail</label>
-                            <input type="date" id="date5">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="client5">Client / Locataire</label>
-                            <input type="text" id="client5" placeholder="Nom du client">
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="interieur5">Intérieur choisi</label>
-                            <input type="text" id="interieur5" placeholder="Description de l'intérieur">
-                        </div>
-                        
-                        <div class="form-group full-width">
-                            <label for="rue5">Rue du bien</label>
-                            <input type="text" id="rue5" placeholder="Adresse du bien">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="garages5">Nombre de garages</label>
-                            <select id="garages5">
-                                <option value="0">0</option>
-                                <option value="2">2</option>
-                                <option value="4">4</option>
-                                <option value="6">6</option>
-                                <option value="12">12</option>
-                                <option value="24">24</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="ca5">Chiffre d'Affaires ($)</label>
-                            <input type="number" id="ca5" min="0" step="0.01" placeholder="Montant du CA">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="reduction5">Réduction (%)</label>
-                            <div class="percentage-input">
-                                <input type="number" id="reduction5" min="0" max="100" step="0.1" placeholder="0" value="0">
-                                <span class="percentage-symbol">%</span>
+                            <div class="image-upload">
+                                <label for="image5"><i class="fas fa-cloud-upload-alt"></i><span>Ajouter une image</span><small>(Format JPG, PNG - Max 5MB)</small></label>
+                                <input type="file" id="image5" accept="image/*">
+                                <div class="image-preview" id="imagePreview5"><img src="" alt="Aperçu de l'image"><button type="button" class="remove-image" onclick="supprimerImage(5)">Supprimer l'image</button></div>
                             </div>
                         </div>
-                        
                         <div class="form-group full-width">
-                            <div class="checkbox-group important">
-                                <input type="checkbox" id="resilie5">
-                                <label for="resilie5">Bail résilié</label>
-                            </div>
-                            
-                            <div class="checkbox-group validated">
-                                <input type="checkbox" id="valide5">
-                                <label for="valide5">Validé par le patron</label>
-                            </div>
+                            <div class="checkbox-group important"><input type="checkbox" id="resilie5"><label for="resilie5">Bail résilié</label></div>
+                            <div class="checkbox-group validated"><input type="checkbox" id="valide5"><label for="valide5">Validé par le patron</label></div>
                         </div>
                     </div>
-                    
                     <div class="actions">
-                        <button class="btn btn-primary" onclick="enregistrerBail(5)">
-                            <i class="fas fa-save"></i> Enregistrer le bail
-                        </button>
-                        <button class="btn btn-success" onclick="calculerBenefice(5)">
-                            <i class="fas fa-calculator"></i> Calculer
-                        </button>
-                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(5)">
-                            <i class="fas fa-redo"></i> Nouveau
-                        </button>
+                        <button class="btn btn-primary" onclick="enregistrerBail(5)"><i class="fas fa-save"></i> Enregistrer le bail</button>
+                        <button class="btn btn-success" onclick="calculerBenefice(5)"><i class="fas fa-calculator"></i> Calculer</button>
+                        <button class="btn btn-warning" onclick="reinitialiserFormulaire(5)"><i class="fas fa-redo"></i> Nouveau</button>
                     </div>
-                    
-                    <div class="results">
-                        <h3>Résultats pour Employé 5</h3>
-                        <div class="result-item">
-                            <span>Chiffre d'Affaires:</span>
-                            <span id="ca-result5" class="result-value ca-value">0 $</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Réduction:</span>
-                            <span id="reduction-result5" class="result-value reduction-value">0 $ (0%)</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Bénéfice:</span>
-                            <span id="benefice5" class="result-value benefice-value">0 $</span>
-                        </div>
-                        <div class="result-item">
-                            <span>Statut:</span>
-                            <span id="statut5" class="badge warning">En cours</span>
-                        </div>
-                    </div>
-                    
-                    <div class="history-section">
-                        <h3><i class="fas fa-history"></i> Historique des baux</h3>
-                        <div id="history5">
-                            <div class="empty-history">Aucun bail enregistré pour le moment</div>
-                        </div>
-                    </div>
+                    <div class="results"><h3>Résultats pour Employé 5</h3><div class="result-item"><span>Chiffre d'Affaires:</span><span id="ca-result5" class="result-value ca-value">0 $</span></div><div class="result-item"><span>Réduction:</span><span id="reduction-result5" class="result-value reduction-value">0 $ (0%)</span></div><div class="result-item"><span>Bénéfice:</span><span id="benefice5" class="result-value benefice-value">0 $</span></div><div class="result-item"><span>Statut:</span><span id="statut5" class="badge warning">En cours</span></div></div>
+                    <div class="history-section"><h3><i class="fas fa-history"></i> Historique des baux</h3><div id="history5"><div class="empty-history">Aucun bail enregistré pour le moment</div></div></div>
                 </div>
             </div>
 
@@ -1089,12 +1161,38 @@
                 <li>Si un client vous appelle et qu'il veut résilier le bail, veuillez modifier votre bail et le renseigner</li>
                 <li>Attention : Seul le patron a le droit de valider le bail !</li>
                 <li>Et si vous avez besoin d'information pour les rues, voici le lien : <a href="https://gtamap.xyz/" target="_blank" style="color: var(--secondary);">https://gtamap.xyz/</a></li>
+                <li><strong>Nouveau :</strong> Cliquez sur l'icône œil dans l'historique pour visualiser un aperçu du bail</li>
+                <li><strong>Nouveau :</strong> Ajoutez une image en cliquant sur "Ajouter une image" sous le champ Chiffre d'Affaires</li>
+                <li><strong>Nouveau :</strong> Cliquez sur l'image dans l'aperçu pour l'agrandir</li>
             </ul>
         </div>
 
         <footer>
             <p>Système de Gestion des Baux Immobiliers - Agence Immobilière</p>
         </footer>
+    </div>
+
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Aperçu du Bail</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="previewContent">
+                </div>
+        </div>
+    </div>
+
+    <div id="imageModal" class="image-modal">
+        <div class="image-modal-content">
+            <button class="close-image-modal" id="closeImageModalBtn">&times;</button> 
+            <img id="fullSizeImage" src="" alt="Image en grand">
+            <div class="image-zoom-controls">
+                <button class="zoom-btn" id="zoomIn">+</button>
+                <button class="zoom-btn" id="zoomOut">-</button>
+                <button class="zoom-btn" id="resetZoom">⟲</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1107,8 +1205,21 @@
             employe5: []
         };
 
+        // Stockage des images
+        let imagesData = {
+            employe1: {},
+            employe2: {},
+            employe3: {},
+            employe4: {},
+            employe5: {}
+        };
+
         // Variable pour suivre le bail en cours d'édition
         let bailEnEdition = null;
+
+        // Variables pour le zoom de l'image
+        let currentScale = 1;
+        const scaleStep = 0.1;
 
         // Fonction pour formater la date
         function formaterDate(dateStr) {
@@ -1121,31 +1232,242 @@
             return (ca * pourcentage) / 100;
         }
 
+        // Fonction pour afficher l'image en grand
+        function afficherImageEnGrand(imageUrl) {
+            const imageModal = document.getElementById('imageModal');
+            const fullSizeImage = document.getElementById('fullSizeImage');
+            
+            fullSizeImage.src = imageUrl;
+            currentScale = 1;
+            fullSizeImage.style.transform = `scale(${currentScale})`;
+            imageModal.style.display = 'flex';
+        }
+
+        // Fonction pour gérer le zoom de l'image
+        function gererZoom(action) {
+            const fullSizeImage = document.getElementById('fullSizeImage');
+            
+            switch(action) {
+                case 'in':
+                    currentScale += scaleStep;
+                    break;
+                case 'out':
+                    if (currentScale > scaleStep) {
+                        currentScale -= scaleStep;
+                    }
+                    break;
+                case 'reset':
+                    currentScale = 1;
+                    break;
+            }
+            
+            fullSizeImage.style.transform = `scale(${currentScale})`;
+        }
+
+        // Fonction pour afficher l'aperçu d'un bail
+        function afficherApercuBail(employeNum, bailId) {
+            const employeKey = `employe${employeNum}`;
+            const bail = bauxData[employeKey].find(b => b.id === bailId);
+            
+            if (bail) {
+                const modal = document.getElementById('previewModal');
+                const previewContent = document.getElementById('previewContent');
+                
+                // Vérifier s'il y a une image pour ce bail
+                const imageUrl = imagesData[employeKey][bailId];
+                
+                // Générer le contenu de l'aperçu
+                let html = `
+                    <div class="preview-section">
+                        <h3>Informations générales</h3>
+                        <div class="preview-row">
+                            <span class="preview-label">Date de création:</span>
+                            <span class="preview-value">${formaterDate(bail.date)}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Client / Locataire:</span>
+                            <span class="preview-value">${bail.client}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Intérieur choisi:</span>
+                            <span class="preview-value">${bail.interieur}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Rue du bien:</span>
+                            <span class="preview-value">${bail.rue}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Nombre de garages:</span>
+                            <span class="preview-value">${bail.garages}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-section">
+                        <h3>Informations financières</h3>
+                        <div class="preview-row">
+                            <span class="preview-label">Chiffre d'Affaires:</span>
+                            <span class="preview-value">${bail.ca.toFixed(2)} $</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Réduction:</span>
+                            <span class="preview-value">${bail.reductionPourcentage.toFixed(1)}% (${bail.reductionMontant.toFixed(2)} $)</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Bénéfice:</span>
+                            <span class="preview-value">${bail.benefice.toFixed(2)} $</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Ajouter l'image si elle existe
+                if (imageUrl) {
+                    html += `
+                        <div class="preview-section">
+                            <h3>Image associée</h3>
+                            <div class="preview-image">
+                                <img src="${imageUrl}" alt="Image du bail" onclick="afficherImageEnGrand('${imageUrl}')">
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--gray);">
+                                    <i class="fas fa-search-plus"></i> Cliquez sur l'image pour l'agrandir
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += `
+                    <div class="preview-section">
+                        <h3>Statut du bail</h3>
+                        <div class="preview-row">
+                            <span class="preview-label">Validé par le patron:</span>
+                            <span class="preview-value">${bail.valide ? 'Oui' : 'Non'}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Bail résilié:</span>
+                            <span class="preview-value">${bail.resilie ? 'Oui' : 'Non'}</span>
+                        </div>
+                        <div class="preview-row">
+                            <span class="preview-label">Statut:</span>
+                            <span class="preview-value">${bail.statut}</span>
+                        </div>
+                    </div>
+                `;
+                
+                previewContent.innerHTML = html;
+                modal.style.display = 'flex';
+            }
+        }
+
+        // Fonction pour gérer l'upload d'image
+        function gererUploadImage(employeNum, event) {
+            const file = event.target.files[0];
+            const employeKey = `employe${employeNum}`;
+
+            // Récupérer le bail ID en cours (si mode modification) ou créer un ID temporaire
+            const currentBailId = bailEnEdition ? bailEnEdition.id : `temp_${employeNum}`;
+
+            if (file) {
+                // Vérifier la taille du fichier (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Le fichier est trop volumineux. Taille maximale: 5MB');
+                    event.target.value = ''; // Réinitialiser le champ
+                    return;
+                }
+                
+                // Vérifier le type de fichier
+                if (!file.type.match('image/jpeg') && !file.type.match('image/png')) {
+                    alert('Format de fichier non supporté. Utilisez JPG ou PNG.');
+                    event.target.value = ''; // Réinitialiser le champ
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageUrl = e.target.result;
+                    const previewElement = document.getElementById(`imagePreview${employeNum}`);
+                    const imgElement = previewElement.querySelector('img');
+                    
+                    imgElement.src = imageUrl;
+                    previewElement.style.display = 'block';
+                    
+                    // Stocker l'image temporairement ou pour le bail en édition
+                    imagesData[employeKey][currentBailId] = imageUrl;
+
+                    // Cacher l'upload-label quand l'image est affichée (amélioration UX)
+                    const uploadContainer = event.target.closest('.image-upload');
+                    if (uploadContainer) {
+                        uploadContainer.querySelector('label').style.display = 'none';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Fonction pour supprimer une image
+        function supprimerImage(employeNum) {
+            const employeKey = `employe${employeNum}`;
+            const previewElement = document.getElementById(`imagePreview${employeNum}`);
+            const inputElement = document.getElementById(`image${employeNum}`);
+            const uploadContainer = inputElement.closest('.image-upload');
+            
+            previewElement.style.display = 'none';
+            inputElement.value = '';
+            
+            // Afficher le label d'upload
+            if (uploadContainer) {
+                uploadContainer.querySelector('label').style.display = 'flex';
+            }
+            
+            // Supprimer l'image stockée
+            const currentBailId = bailEnEdition ? bailEnEdition.id : `temp_${employeNum}`;
+            delete imagesData[employeKey][currentBailId];
+
+            // Si on était en mode édition, on efface aussi l'image pour ce bail dans l'historique
+            if (bailEnEdition) {
+                delete imagesData[employeKey][bailEnEdition.id];
+            }
+        }
+
         // Fonction pour enregistrer ou mettre à jour un bail
         function enregistrerBail(employeNum) {
             const employeKey = `employe${employeNum}`;
-            
-            // Récupération des valeurs du formulaire
-            const date = document.getElementById(`date${employeNum}`).value;
-            const client = document.getElementById(`client${employeNum}`).value;
-            const interieur = document.getElementById(`interieur${employeNum}`).value;
-            const rue = document.getElementById(`rue${employeNum}`).value;
-            const garages = document.getElementById(`garages${employeNum}`).value;
-            const ca = parseFloat(document.getElementById(`ca${employeNum}`).value) || 0;
-            const reductionPourcentage = parseFloat(document.getElementById(`reduction${employeNum}`).value) || 0;
+            const formElements = {
+                date: document.getElementById(`date${employeNum}`),
+                client: document.getElementById(`client${employeNum}`),
+                interieur: document.getElementById(`interieur${employeNum}`),
+                rue: document.getElementById(`rue${employeNum}`),
+                garages: document.getElementById(`garages${employeNum}`),
+                ca: document.getElementById(`ca${employeNum}`),
+                reductionPourcentage: document.getElementById(`reduction${employeNum}`),
+                resilie: document.getElementById(`resilie${employeNum}`),
+                valide: document.getElementById(`valide${employeNum}`),
+                imageInput: document.getElementById(`image${employeNum}`)
+            };
+
+            const date = formElements.date.value;
+            const client = formElements.client.value;
+            const interieur = formElements.interieur.value;
+            const rue = formElements.rue.value;
+            const garages = formElements.garages.value;
+            const ca = parseFloat(formElements.ca.value) || 0;
+            const reductionPourcentage = parseFloat(formElements.reductionPourcentage.value) || 0;
             const reductionMontant = calculerMontantReduction(ca, reductionPourcentage);
-            const resilie = document.getElementById(`resilie${employeNum}`).checked;
-            const valide = document.getElementById(`valide${employeNum}`).checked;
+            const resilie = formElements.resilie.checked;
+            const valide = formElements.valide.checked;
             
             // Validation des champs obligatoires
             if (!date || !client || !interieur || !rue) {
                 alert('Veuillez remplir tous les champs obligatoires');
                 return;
             }
-            
+
+            let bailId;
+            let isNew = !bailEnEdition;
+
             if (bailEnEdition) {
                 // Mise à jour d'un bail existant
-                const index = bauxData[employeKey].findIndex(b => b.id === bailEnEdition.id);
+                bailId = bailEnEdition.id;
+                const index = bauxData[employeKey].findIndex(b => b.id === bailId);
+
                 if (index !== -1) {
                     bauxData[employeKey][index] = {
                         ...bauxData[employeKey][index],
@@ -1165,11 +1487,12 @@
                     
                     alert('Bail mis à jour avec succès !');
                 }
-                bailEnEdition = null;
+                
             } else {
                 // Création d'un nouveau bail
+                bailId = Date.now(); // Nouvel ID
                 const bail = {
-                    id: Date.now(),
+                    id: bailId,
                     date: date,
                     client: client,
                     interieur: interieur,
@@ -1186,16 +1509,36 @@
                 
                 // Ajout au tableau des baux
                 bauxData[employeKey].push(bail);
+
                 alert('Bail enregistré avec succès !');
             }
             
+            // Gestion de l'image : Si une image a été temporairement stockée pour un nouveau bail, 
+            // on la déplace vers l'ID permanent. Si c'est un update, elle est déjà au bon ID (bailId).
+            const tempImageId = `temp_${employeNum}`;
+            if (isNew && imagesData[employeKey][tempImageId]) {
+                imagesData[employeKey][bailId] = imagesData[employeKey][tempImageId];
+                delete imagesData[employeKey][tempImageId];
+            } else if (isNew && formElements.imageInput.files[0]) {
+                // Cas où l'image a été uploadée mais pas de bailEnEdition -> elle a été stockée en temp
+                imagesData[employeKey][bailId] = imagesData[employeKey][tempImageId];
+                delete imagesData[employeKey][tempImageId];
+            } else if (!isNew && imagesData[employeKey][tempImageId] && imagesData[employeKey][tempImageId].includes("data:image")) {
+                // Correction pour l'update où l'image n'a pas été re-uploadée mais était là.
+                // On s'assure qu'on ne supprime pas l'image du bail en édition si elle n'a pas été touchée.
+                // Pour simplifier, on prend l'image du temp si elle existe et on l'assigne à l'ID du bail.
+                imagesData[employeKey][bailId] = imagesData[employeKey][tempImageId];
+                delete imagesData[employeKey][tempImageId];
+            }
+
+
             // Mise à jour de l'historique
             afficherHistorique(employeNum);
             
             // Mise à jour des totaux
             calculerTotaux();
             
-            // Réinitialisation du formulaire
+            // Réinitialisation du formulaire pour une nouvelle entrée
             reinitialiserFormulaire(employeNum);
         }
 
@@ -1205,6 +1548,9 @@
             const bail = bauxData[employeKey].find(b => b.id === bailId);
             
             if (bail) {
+                // Mettre à jour bailEnEdition
+                bailEnEdition = bail;
+
                 // Remplir le formulaire avec les données du bail
                 document.getElementById(`date${employeNum}`).value = bail.date;
                 document.getElementById(`client${employeNum}`).value = bail.client;
@@ -1216,11 +1562,31 @@
                 document.getElementById(`resilie${employeNum}`).checked = bail.resilie;
                 document.getElementById(`valide${employeNum}`).checked = bail.valide;
                 
+                // Afficher l'image si elle existe
+                const imageUrl = imagesData[employeKey][bailId];
+                const previewElement = document.getElementById(`imagePreview${employeNum}`);
+                const imgElement = previewElement.querySelector('img');
+                const uploadContainer = document.getElementById(`image${employeNum}`).closest('.image-upload');
+
+                if (imageUrl) {
+                    imgElement.src = imageUrl;
+                    previewElement.style.display = 'block';
+                    if (uploadContainer) {
+                         uploadContainer.querySelector('label').style.display = 'none';
+                    }
+                    // Stocker l'image existante dans le slot temporaire pour la préserver si l'utilisateur ne touche pas à l'upload
+                    imagesData[employeKey][`temp_${employeNum}`] = imageUrl;
+                } else {
+                    imgElement.src = "";
+                    previewElement.style.display = 'none';
+                    if (uploadContainer) {
+                         uploadContainer.querySelector('label').style.display = 'flex';
+                    }
+                    delete imagesData[employeKey][`temp_${employeNum}`]; // S'assurer que le slot temp est vide
+                }
+                
                 // Mettre à jour les résultats
                 calculerBenefice(employeNum);
-                
-                // Stocker le bail en cours d'édition
-                bailEnEdition = bail;
                 
                 // Faire défiler vers le formulaire
                 document.querySelector(`#employe${employeNum} .form-grid`).scrollIntoView({
@@ -1234,6 +1600,9 @@
             if (confirm('Êtes-vous sûr de vouloir supprimer ce bail ?')) {
                 const employeKey = `employe${employeNum}`;
                 bauxData[employeKey] = bauxData[employeKey].filter(b => b.id !== bailId);
+                
+                // Supprimer l'image associée
+                delete imagesData[employeKey][bailId];
                 
                 // Mise à jour de l'historique
                 afficherHistorique(employeNum);
@@ -1286,10 +1655,13 @@
                         <td><span class="badge ${badgeClass}">${bail.statut}</span></td>
                         <td>
                             <div class="action-buttons">
-                                <button class="btn btn-warning btn-small" onclick="modifierBail(${employeNum}, ${bail.id})">
+                                <button class="btn btn-info btn-small" onclick="afficherApercuBail(${employeNum}, ${bail.id})" title="Aperçu">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn btn-warning btn-small" onclick="modifierBail(${employeNum}, ${bail.id})" title="Modifier">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button class="btn btn-danger btn-small" onclick="supprimerBail(${employeNum}, ${bail.id})">
+                                <button class="btn btn-danger btn-small" onclick="supprimerBail(${employeNum}, ${bail.id})" title="Supprimer">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </div>
@@ -1304,7 +1676,8 @@
 
         // Fonction pour réinitialiser le formulaire
         function reinitialiserFormulaire(employeNum) {
-            document.getElementById(`date${employeNum}`).value = '';
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById(`date${employeNum}`).value = today; // Réinitialiser à la date du jour
             document.getElementById(`client${employeNum}`).value = '';
             document.getElementById(`interieur${employeNum}`).value = '';
             document.getElementById(`rue${employeNum}`).value = '';
@@ -1313,6 +1686,19 @@
             document.getElementById(`reduction${employeNum}`).value = '0';
             document.getElementById(`resilie${employeNum}`).checked = false;
             document.getElementById(`valide${employeNum}`).checked = false;
+            
+            // Réinitialiser l'upload d'image
+            const previewElement = document.getElementById(`imagePreview${employeNum}`);
+            const inputElement = document.getElementById(`image${employeNum}`);
+            const uploadContainer = inputElement.closest('.image-upload');
+
+            previewElement.style.display = 'none';
+            inputElement.value = '';
+            if (uploadContainer) {
+                uploadContainer.querySelector('label').style.display = 'flex';
+            }
+            // Supprimer l'image temporaire pour le nouveau formulaire
+            delete imagesData[`employe${employeNum}`][`temp_${employeNum}`];
             
             // Réinitialiser les résultats
             document.getElementById(`ca-result${employeNum}`).textContent = '0 $';
@@ -1392,6 +1778,7 @@
             const performanceIndicator = document.getElementById('performance-indicator');
             if (totalCA === 0) {
                 performanceIndicator.textContent = "Performance: En attente de données";
+                performanceIndicator.style.color = "white"; // Couleur par défaut dans le card total
             } else if (totalBenefice / totalCA > 0.8) {
                 performanceIndicator.textContent = "Performance: Excellente";
                 performanceIndicator.style.color = "#2ecc71";
@@ -1440,7 +1827,7 @@
 
         // Initialisation des écouteurs d'événements
         document.addEventListener('DOMContentLoaded', function() {
-            // Définir la date d'aujourd'hui par défaut
+            // Définir la date d'aujourd'hui par défaut pour le premier onglet
             const today = new Date().toISOString().split('T')[0];
             for (let i = 1; i <= 5; i++) {
                 document.getElementById(`date${i}`).value = today;
@@ -1452,6 +1839,9 @@
                 document.getElementById(`reduction${i}`).addEventListener('input', () => calculerBenefice(i));
                 document.getElementById(`resilie${i}`).addEventListener('change', () => calculerBenefice(i));
                 document.getElementById(`valide${i}`).addEventListener('change', () => calculerBenefice(i));
+                
+                // Écouteur pour l'upload d'image
+                document.getElementById(`image${i}`).addEventListener('change', (event) => gererUploadImage(i, event));
             }
             
             // Gestion des onglets
@@ -1463,16 +1853,55 @@
                     
                     // Activer l'onglet cliqué
                     tab.classList.add('active');
-                    document.getElementById(tab.dataset.tab).classList.add('active');
+                    const employeContent = document.getElementById(tab.dataset.tab);
+                    employeContent.classList.add('active');
+                    
+                    // Réinitialiser le formulaire pour le nouvel onglet (et effacer bailEnEdition)
+                    const employeNum = tab.dataset.tab.replace('employe', '');
+                    reinitialiserFormulaire(employeNum); // Réinitialisation pour commencer une nouvelle saisie
                     
                     // Afficher l'historique de l'employé sélectionné
-                    const employeNum = tab.dataset.tab.replace('employe', '');
                     afficherHistorique(employeNum);
                 });
             });
             
-            // Initialiser les totaux
+            // Gestion de la modal d'aperçu
+            const modal = document.getElementById('previewModal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // Gestion de la modal d'image
+            const imageModal = document.getElementById('imageModal');
+            // FIX: Utilisation de l'ID ajouté au bouton de fermeture de l'image
+            const closeImageModalBtn = document.getElementById('closeImageModalBtn'); 
+            
+            closeImageModalBtn.addEventListener('click', () => { // FIX: Écouteur sur le bouton de fermeture
+                imageModal.style.display = 'none';
+            });
+            
+            window.addEventListener('click', (event) => {
+                if (event.target === imageModal) {
+                    imageModal.style.display = 'none';
+                }
+            });
+            
+            // Gestion du zoom de l'image
+            document.getElementById('zoomIn').addEventListener('click', () => gererZoom('in'));
+            document.getElementById('zoomOut').addEventListener('click', () => gererZoom('out'));
+            document.getElementById('resetZoom').addEventListener('click', () => gererZoom('reset'));
+            
+            // Initialiser les totaux et le premier historique (employe1)
             calculerTotaux();
+            afficherHistorique(1); // Afficher l'historique du premier employé au chargement
         });
     </script>
 </body>

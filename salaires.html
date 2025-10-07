@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Salaires - Agence Immobilière</title>
+    <title>Agence Immobilière - Gestion des Salaires</title>
     <style>
-        /* Tous les styles CSS de la section salaires */
         :root {
             --primary: #2c3e50;
             --secondary: #3498db;
@@ -27,6 +26,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             line-height: 1.6;
+            padding: 20px;
             min-height: 100vh;
         }
         
@@ -34,44 +34,24 @@
             max-width: 1200px;
             margin: 0 auto;
             background: white;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-            margin: 20px auto;
         }
         
         header {
             text-align: center;
+            margin-bottom: 40px;
             padding: 30px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             position: relative;
         }
         
-        .back-button {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.3s;
-        }
-        
-        .back-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             margin-bottom: 15px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -81,7 +61,29 @@
             margin-bottom: 15px;
         }
         
-        /* Ajouter tous les autres styles spécifiques aux salaires ici */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
         .tabs {
             display: flex;
             margin-bottom: 30px;
@@ -118,6 +120,12 @@
             border-radius: 10px;
             box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 25px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .tab-content.active {
@@ -397,24 +405,7 @@
             font-size: 0.9rem;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
         @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .expense-form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .partnership-form-row {
-                grid-template-columns: 1fr;
-            }
-            
             .calculator {
                 grid-template-columns: 1fr;
             }
@@ -431,85 +422,394 @@
                 grid-template-columns: 1fr;
             }
             
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .expense-form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .partnership-form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
             h1 {
                 font-size: 2rem;
             }
+            
+            .back-button {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 20px;
+                display: inline-flex;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <a href="index.html" class="back-button">
-                <i class="fas fa-arrow-left"></i>
-                Retour
+                <i class="fas fa-arrow-left"></i> Retour à l'accueil
             </a>
-            <div class="agency-logo">💰</div>
-            <h1>Gestion des Salaires</h1>
-            <p>Gérez les salaires, commissions et bénéfices hebdomadaires</p>
+            <div class="agency-logo">🏢</div>
+            <h1>Agence Immobilière - Gestion des Salaires</h1>
+            <p>Gérez vos employés, calculez les commissions et les bénéfices pour GTA RP</p>
         </header>
         
-        <div class="content">
-            <div class="current-week-info" id="currentWeekInfo">
-                <!-- Affiché dynamiquement -->
+        <div class="current-week-info" id="currentWeekInfo">
+            <!-- Affiché dynamiquement -->
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="employees">Employés</div>
+            <div class="tab" data-tab="commission">Commissions</div>
+            <div class="tab" data-tab="expenses">Dépenses & Impôts</div>
+            <div class="tab" data-tab="summary">Résumé Hebdo</div>
+            <div class="tab" data-tab="partnerships">Partenariats</div>
+            <div class="tab" data-tab="history">Historique & Graphiques</div>
+        </div>
+        
+        <!-- Onglet Gestion Employés -->
+        <div id="employees" class="tab-content active">
+            <h2>Saisie des Performances Hebdomadaires</h2>
+            
+            <div class="form-group">
+                <label for="weekDate">Semaine du</label>
+                <input type="date" id="weekDate">
             </div>
             
-            <div class="tabs">
-                <div class="tab active" data-tab="employees">Employés</div>
-                <div class="tab" data-tab="commission">Commissions</div>
-                <div class="tab" data-tab="expenses">Dépenses & Impôts</div>
-                <div class="tab" data-tab="summary">Résumé Hebdo</div>
-                <div class="tab" data-tab="partnerships">Partenariats</div>
-                <div class="tab" data-tab="history">Historique & Graphiques</div>
-            </div>
-            
-            <!-- Onglet Gestion Employés -->
-            <div id="employees" class="tab-content active">
-                <h2>Saisie des Performances Hebdomadaires</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="employeeName">Nom de l'employé</label>
+                    <input type="text" id="employeeName" placeholder="Nom de l'employé">
+                </div>
                 
                 <div class="form-group">
-                    <label for="weekDate">Semaine du</label>
-                    <input type="date" id="weekDate">
+                    <label for="employeeGrade">Grade</label>
+                    <select id="employeeGrade">
+                        <option value="patron">Patron</option>
+                        <option value="copatron">Co-Patron</option>
+                        <option value="manager">Manager</option>
+                        <option value="employe">Employé</option>
+                        <option value="stagiaire">Stagiaire</option>
+                    </select>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="employeeName">Nom de l'employé</label>
-                        <input type="text" id="employeeName" placeholder="Nom de l'employé">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="employeeGrade">Grade</label>
-                        <select id="employeeGrade">
-                            <option value="patron">Patron</option>
-                            <option value="copatron">Co-Patron</option>
-                            <option value="manager">Manager</option>
-                            <option value="employe">Employé</option>
-                            <option value="stagiaire">Stagiaire</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="weeklyRevenue">CA Hebdomadaire ($)</label>
-                        <input type="number" id="weeklyRevenue" placeholder="CA de la semaine">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <button id="addEmployee">Ajouter</button>
-                    </div>
+                <div class="form-group">
+                    <label for="weeklyRevenue">CA Hebdomadaire ($)</label>
+                    <input type="number" id="weeklyRevenue" placeholder="CA de la semaine">
                 </div>
                 
-                <table id="employeesTable">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button id="addEmployee">Ajouter</button>
+                </div>
+            </div>
+            
+            <table id="employeesTable">
+                <thead>
+                    <tr>
+                        <th>Semaine</th>
+                        <th>Nom</th>
+                        <th>Grade</th>
+                        <th>CA Hebdomadaire</th>
+                        <th>Salaire</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Onglet Calculateur de Commission -->
+        <div id="commission" class="tab-content">
+            <h2>Calculateur de Commission</h2>
+            <div class="calculator">
+                <div>
+                    <div class="form-group">
+                        <label for="propertyValue">Valeur du bien ($)</label>
+                        <input type="number" id="propertyValue" placeholder="Entrez la valeur du bien">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Sélectionnez le pourcentage de commission</label>
+                        <div class="commission-options">
+                            <div class="commission-option" data-percent="8">8%</div>
+                            <div class="commission-option" data-percent="15">15%</div>
+                            <div class="commission-option" data-percent="18">18%</div>
+                            <div class="commission-option" data-percent="20">20%</div>
+                            <div class="commission-option" data-percent="25">25%</div>
+                            <div class="commission-option" data-percent="custom">Personnalisé</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" id="customPercentContainer" style="display: none;">
+                        <label for="customPercent">Pourcentage personnalisé</label>
+                        <input type="number" id="customPercent" placeholder="Entrez le pourcentage">
+                    </div>
+                    
+                    <button id="calculateCommission">Calculer la Commission</button>
+                </div>
+                
+                <div class="calculator-result" id="commissionResult">
+                    Commission: $0
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet Dépenses & Impôts -->
+        <div id="expenses" class="tab-content">
+            <h2>Dépenses & Impôts</h2>
+            
+            <div class="form-group">
+                <label for="taxRate">Taux d'imposition (%)</label>
+                <input type="number" id="taxRate" value="10" placeholder="Entrez le taux d'imposition">
+            </div>
+            
+            <h3>Ajouter une Dépense d'Agence</h3>
+            
+            <div class="expense-form-row">
+                <div class="form-group">
+                    <label for="expenseDate">Date</label>
+                    <input type="date" id="expenseDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="expenseCompany">Nom de l'entreprise / Sujet</label>
+                    <input type="text" id="expenseCompany" placeholder="Nom de l'entreprise ou sujet">
+                </div>
+                
+                <div class="form-group">
+                    <label for="expenseCost">Coût ($)</label>
+                    <input type="number" id="expenseCost" placeholder="Coût de la dépense">
+                </div>
+                
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button id="addExpense">Ajouter</button>
+                </div>
+            </div>
+            
+            <table id="expensesTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Entreprise / Sujet</th>
+                        <th>Coût</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement -->
+                </tbody>
+            </table>
+            
+            <button id="updateExpenses">Mettre à jour</button>
+            
+            <div class="summary-box">
+                <h3>Résumé des Dépenses - Semaine en cours</h3>
+                <div class="summary-item">
+                    <span>CA Total Brut:</span>
+                    <span id="grossRevenue" class="money">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Impôts:</span>
+                    <span id="taxAmount" class="money negative">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Dépenses:</span>
+                    <span id="totalExpenses" class="money negative">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Salaires:</span>
+                    <span id="totalSalaries" class="money negative">$0</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Bénéfice Net:</span>
+                    <span id="netProfit" class="money positive">$0</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Onglet Résumé Hebdomadaire -->
+        <div id="summary" class="tab-content">
+            <h2>Résumé Hebdomadaire</h2>
+            
+            <div class="form-group">
+                <label for="summaryWeekSelector">Sélectionner la semaine à analyser</label>
+                <select id="summaryWeekSelector">
+                    <option value="current">Semaine en cours</option>
+                </select>
+            </div>
+            
+            <div class="summary-box">
+                <h3>Résumé Financier - <span id="summaryWeekTitle">Semaine en cours</span></h3>
+                <div class="summary-item">
+                    <span>CA Total Brut:</span>
+                    <span id="summaryGrossRevenue" class="money">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Impôts:</span>
+                    <span id="summaryTaxAmount" class="money negative">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Dépenses:</span>
+                    <span id="summaryExpenses" class="money negative">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Salaires:</span>
+                    <span id="summarySalaries" class="money negative">$0</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Bénéfice Net:</span>
+                    <span id="summaryNetProfit" class="money positive">$0</span>
+                </div>
+            </div>
+            
+            <div class="summary-box">
+                <h3>Réserve Dynasty</h3>
+                <div class="summary-item">
+                    <span>Montant à conserver:</span>
+                    <span class="money">$100,000</span>
+                </div>
+                <div class="summary-item">
+                    <span>Bénéfice après réserve:</span>
+                    <span id="profitAfterReserve" class="money">$0</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Montant disponible pour primes:</span>
+                    <span id="bonusAmount" class="money positive">$0</span>
+                </div>
+            </div>
+            
+            <button id="distributeBonuses">Distribuer les Primes</button>
+        </div>
+        
+        <!-- Nouvel Onglet Partenariats -->
+        <div id="partnerships" class="tab-content">
+            <h2>Gestion des Partenariats</h2>
+            
+            <div class="partnership-form-row">
+                <div class="form-group">
+                    <label for="partnerName">Nom de l'entreprise</label>
+                    <input type="text" id="partnerName" placeholder="Nom de l'entreprise">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contractType">Type de contrat</label>
+                    <select id="contractType">
+                        <option value="partenariat">Partenariat</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="signatureDate">Date de signature</label>
+                    <input type="date" id="signatureDate">
+                </div>
+                
+                <div class="form-group">
+                    <label for="partnerServices">Prestations de services</label>
+                    <input type="text" id="partnerServices" placeholder="Prestations fournies">
+                </div>
+                
+                <div class="form-group">
+                    <label for="discountPercentage">Pourcentage de réduction</label>
+                    <input type="number" id="discountPercentage" value="0" min="0" max="100">
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactPerson">Contact de l'entreprise</label>
+                    <input type="text" id="contactPerson" placeholder="Personne contact">
+                </div>
+                
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button id="addPartnership">Ajouter</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="contractStatus">Statut du contrat</label>
+                <select id="contractStatus">
+                    <option value="actif">Actif</option>
+                    <option value="negociation">En Négociation</option>
+                    <option value="termine">Terminé</option>
+                    <option value="suspendu">Suspendu</option>
+                    <option value="revision">En Révision</option>
+                </select>
+            </div>
+            
+            <table id="partnershipsTable">
+                <thead>
+                    <tr>
+                        <th>Nom de l'entreprise</th>
+                        <th>Type de Contrat</th>
+                        <th>Date de Signature</th>
+                        <th>Prestations de services</th>
+                        <th>Pourcentage de réduction</th>
+                        <th>Contact de l'entreprise</th>
+                        <th>Statut du Contrat</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Les lignes seront ajoutées dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Nouvel Onglet Historique & Graphiques -->
+        <div id="history" class="tab-content">
+            <h2>Historique & Graphiques</h2>
+            
+            <div class="week-selector">
+                <div class="form-group" style="flex: 2;">
+                    <label for="weekSelector">Sélectionner une semaine</label>
+                    <select id="weekSelector">
+                        <option value="all">Toutes les semaines</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label for="chartType">Type de graphique</label>
+                    <select id="chartType">
+                        <option value="bar">Barres</option>
+                        <option value="line">Lignes</option>
+                        <option value="pie">Camembert</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>CA par Employé</h3>
+                    <canvas id="employeeChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Évolution du CA Total</h3>
+                    <canvas id="totalChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="summary-box">
+                <h3>Historique des Semaines</h3>
+                <table id="historyTable">
                     <thead>
                         <tr>
                             <th>Semaine</th>
-                            <th>Nom</th>
-                            <th>Grade</th>
-                            <th>CA Hebdomadaire</th>
-                            <th>Salaire</th>
+                            <th>Employés</th>
+                            <th>CA Total</th>
+                            <th>Bénéfice Net</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -517,302 +817,11 @@
                         <!-- Les lignes seront ajoutées dynamiquement -->
                     </tbody>
                 </table>
-            </div>
-            
-            <!-- Onglet Calculateur de Commission -->
-            <div id="commission" class="tab-content">
-                <h2>Calculateur de Commission</h2>
-                <div class="calculator">
-                    <div>
-                        <div class="form-group">
-                            <label for="propertyValue">Valeur du bien ($)</label>
-                            <input type="number" id="propertyValue" placeholder="Entrez la valeur du bien">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Sélectionnez le pourcentage de commission</label>
-                            <div class="commission-options">
-                                <div class="commission-option" data-percent="8">8%</div>
-                                <div class="commission-option" data-percent="15">15%</div>
-                                <div class="commission-option" data-percent="18">18%</div>
-                                <div class="commission-option" data-percent="20">20%</div>
-                                <div class="commission-option" data-percent="25">25%</div>
-                                <div class="commission-option" data-percent="custom">Personnalisé</div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group" id="customPercentContainer" style="display: none;">
-                            <label for="customPercent">Pourcentage personnalisé</label>
-                            <input type="number" id="customPercent" placeholder="Entrez le pourcentage">
-                        </div>
-                        
-                        <button id="calculateCommission">Calculer la Commission</button>
-                    </div>
-                    
-                    <div class="calculator-result" id="commissionResult">
-                        Commission: $0
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Onglet Dépenses & Impôts -->
-            <div id="expenses" class="tab-content">
-                <h2>Dépenses & Impôts</h2>
-                
-                <div class="form-group">
-                    <label for="taxRate">Taux d'imposition (%)</label>
-                    <input type="number" id="taxRate" value="10" placeholder="Entrez le taux d'imposition">
-                </div>
-                
-                <h3>Ajouter une Dépense d'Agence</h3>
-                
-                <div class="expense-form-row">
-                    <div class="form-group">
-                        <label for="expenseDate">Date</label>
-                        <input type="date" id="expenseDate">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="expenseCompany">Nom de l'entreprise / Sujet</label>
-                        <input type="text" id="expenseCompany" placeholder="Nom de l'entreprise ou sujet">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="expenseCost">Coût ($)</label>
-                        <input type="number" id="expenseCost" placeholder="Coût de la dépense">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <button id="addExpense">Ajouter</button>
-                    </div>
-                </div>
-                
-                <table id="expensesTable">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Entreprise / Sujet</th>
-                            <th>Coût</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Les lignes seront ajoutées dynamiquement -->
-                    </tbody>
-                </table>
-                
-                <button id="updateExpenses">Mettre à jour</button>
-                
-                <div class="summary-box">
-                    <h3>Résumé des Dépenses - Semaine en cours</h3>
-                    <div class="summary-item">
-                        <span>CA Total Brut:</span>
-                        <span id="grossRevenue" class="money">$0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Impôts:</span>
-                        <span id="taxAmount" class="money negative">$0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Dépenses:</span>
-                        <span id="totalExpenses" class="money negative">$0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Salaires:</span>
-                        <span id="totalSalaries" class="money negative">$0</span>
-                    </div>
-                    <div class="summary-item total">
-                        <span>Bénéfice Net:</span>
-                        <span id="netProfit" class="money positive">$0</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Onglet Résumé Hebdomadaire -->
-            <div id="summary" class="tab-content">
-                <h2>Résumé Hebdomadaire</h2>
-                
-                <div class="form-group">
-                    <label for="summaryWeekSelector">Sélectionner la semaine à analyser</label>
-                    <select id="summaryWeekSelector">
-                        <option value="current">Semaine en cours</option>
-                    </select>
-                </div>
-                
-                <div class="summary-box">
-                    <h3>Résumé Financier - <span id="summaryWeekTitle">Semaine en cours</span></h3>
-                    <div class="summary-item">
-                        <span>CA Total Brut:</span>
-                        <span id="summaryGrossRevenue" class="money">$0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Impôts:</span>
-                        <span id="summaryTaxAmount" class="money negative">$0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Dépenses:</span>
-                        <span id="summaryExpenses" class="money negative">$0</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Salaires:</span>
-                        <span id="summarySalaries" class="money negative">$0</span>
-                    </div>
-                    <div class="summary-item total">
-                        <span>Bénéfice Net:</span>
-                        <span id="summaryNetProfit" class="money positive">$0</span>
-                    </div>
-                </div>
-                
-                <div class="summary-box">
-                    <h3>Réserve Dynasty</h3>
-                    <div class="summary-item">
-                        <span>Montant à conserver:</span>
-                        <span class="money">$100,000</span>
-                    </div>
-                    <div class="summary-item">
-                        <span>Bénéfice après réserve:</span>
-                        <span id="profitAfterReserve" class="money">$0</span>
-                    </div>
-                    <div class="summary-item total">
-                        <span>Montant disponible pour primes:</span>
-                        <span id="bonusAmount" class="money positive">$0</span>
-                    </div>
-                </div>
-                
-                <button id="distributeBonuses">Distribuer les Primes</button>
-            </div>
-            
-            <!-- Nouvel Onglet Partenariats -->
-            <div id="partnerships" class="tab-content">
-                <h2>Gestion des Partenariats</h2>
-                
-                <div class="partnership-form-row">
-                    <div class="form-group">
-                        <label for="partnerName">Nom de l'entreprise</label>
-                        <input type="text" id="partnerName" placeholder="Nom de l'entreprise">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contractType">Type de contrat</label>
-                        <select id="contractType">
-                            <option value="partenariat">Partenariat</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="signatureDate">Date de signature</label>
-                        <input type="date" id="signatureDate">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="partnerServices">Prestations de services</label>
-                        <input type="text" id="partnerServices" placeholder="Prestations fournies">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="discountPercentage">Pourcentage de réduction</label>
-                        <input type="number" id="discountPercentage" value="0" min="0" max="100">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="contactPerson">Contact de l'entreprise</label>
-                        <input type="text" id="contactPerson" placeholder="Personne contact">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <button id="addPartnership">Ajouter</button>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="contractStatus">Statut du contrat</label>
-                    <select id="contractStatus">
-                        <option value="actif">Actif</option>
-                        <option value="negociation">En Négociation</option>
-                        <option value="termine">Terminé</option>
-                        <option value="suspendu">Suspendu</option>
-                        <option value="revision">En Révision</option>
-                    </select>
-                </div>
-                
-                <table id="partnershipsTable">
-                    <thead>
-                        <tr>
-                            <th>Nom de l'entreprise</th>
-                            <th>Type de Contrat</th>
-                            <th>Date de Signature</th>
-                            <th>Prestations de services</th>
-                            <th>Pourcentage de réduction</th>
-                            <th>Contact de l'entreprise</th>
-                            <th>Statut du Contrat</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Les lignes seront ajoutées dynamiquement -->
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Nouvel Onglet Historique & Graphiques -->
-            <div id="history" class="tab-content">
-                <h2>Historique & Graphiques</h2>
-                
-                <div class="week-selector">
-                    <div class="form-group" style="flex: 2;">
-                        <label for="weekSelector">Sélectionner une semaine</label>
-                        <select id="weekSelector">
-                            <option value="all">Toutes les semaines</option>
-                        </select>
-                    </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label for="chartType">Type de graphique</label>
-                        <select id="chartType">
-                            <option value="bar">Barres</option>
-                            <option value="line">Lignes</option>
-                            <option value="pie">Camembert</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="charts-grid">
-                    <div class="chart-container">
-                        <h3>CA par Employé</h3>
-                        <canvas id="employeeChart"></canvas>
-                    </div>
-                    
-                    <div class="chart-container">
-                        <h3>Évolution du CA Total</h3>
-                        <canvas id="totalChart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="summary-box">
-                    <h3>Historique des Semaines</h3>
-                    <table id="historyTable">
-                        <thead>
-                            <tr>
-                                <th>Semaine</th>
-                                <th>Employés</th>
-                                <th>CA Total</th>
-                                <th>Bénéfice Net</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Les lignes seront ajoutées dynamiquement -->
-                        </tbody>
-                    </table>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // ==================== GESTION DES SALAIRES ====================
-
         // Salaires fixes par grade
         const SALARIES = {
             patron: 40000,
@@ -831,10 +840,19 @@
             stagiaire: "Stagiaire"
         };
 
+        // Noms des statuts de contrat
+        const STATUS_NAMES = {
+            actif: "Actif",
+            negociation: "En Négociation",
+            termine: "Terminé",
+            suspendu: "Suspendu",
+            revision: "En Révision"
+        };
+
         // Données de l'application
-        let weeklyData = [];
-        let partnershipsData = [];
-        let expensesData = [];
+        let weeklyData = []; // Stocke toutes les données par semaine
+        let partnershipsData = []; // Stocke les données des partenariats
+        let expensesData = []; // Stocke les données des dépenses
         let expenses = {
             taxRate: 10,
             agencyCosts: 0
@@ -844,13 +862,56 @@
         let editingPartnershipId = null;
         let editingExpenseId = null;
         
+        // Éléments DOM
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const weekDateInput = document.getElementById('weekDate');
+        const employeeNameInput = document.getElementById('employeeName');
+        const employeeGradeInput = document.getElementById('employeeGrade');
+        const weeklyRevenueInput = document.getElementById('weeklyRevenue');
+        const addEmployeeBtn = document.getElementById('addEmployee');
+        const employeesTable = document.getElementById('employeesTable').getElementsByTagName('tbody')[0];
+        const commissionOptions = document.querySelectorAll('.commission-option');
+        const propertyValueInput = document.getElementById('propertyValue');
+        const customPercentContainer = document.getElementById('customPercentContainer');
+        const customPercentInput = document.getElementById('customPercent');
+        const calculateCommissionBtn = document.getElementById('calculateCommission');
+        const commissionResult = document.getElementById('commissionResult');
+        const taxRateInput = document.getElementById('taxRate');
+        const updateExpensesBtn = document.getElementById('updateExpenses');
+        const distributeBonusesBtn = document.getElementById('distributeBonuses');
+        const weekSelector = document.getElementById('weekSelector');
+        const summaryWeekSelector = document.getElementById('summaryWeekSelector');
+        const chartTypeSelect = document.getElementById('chartType');
+        const historyTable = document.getElementById('historyTable').getElementsByTagName('tbody')[0];
+        const currentWeekInfo = document.getElementById('currentWeekInfo');
+        const summaryWeekTitle = document.getElementById('summaryWeekTitle');
+        
+        // Éléments pour les partenariats
+        const partnerNameInput = document.getElementById('partnerName');
+        const contractTypeInput = document.getElementById('contractType');
+        const signatureDateInput = document.getElementById('signatureDate');
+        const partnerServicesInput = document.getElementById('partnerServices');
+        const discountPercentageInput = document.getElementById('discountPercentage');
+        const contactPersonInput = document.getElementById('contactPerson');
+        const contractStatusInput = document.getElementById('contractStatus');
+        const addPartnershipBtn = document.getElementById('addPartnership');
+        const partnershipsTable = document.getElementById('partnershipsTable').getElementsByTagName('tbody')[0];
+        
+        // Éléments pour les dépenses
+        const expenseDateInput = document.getElementById('expenseDate');
+        const expenseCompanyInput = document.getElementById('expenseCompany');
+        const expenseCostInput = document.getElementById('expenseCost');
+        const addExpenseBtn = document.getElementById('addExpense');
+        const expensesTable = document.getElementById('expensesTable').getElementsByTagName('tbody')[0];
+        
         // Variables pour le calcul de commission
         let selectedCommissionPercent = 15;
         
         // Variables pour les graphiques
         let employeeChart = null;
         let totalChart = null;
-
+        
         // Fonction pour obtenir la date du lundi de la semaine
         function getMonday(date) {
             const d = new Date(date);
@@ -871,19 +932,19 @@
         // Fonction pour obtenir la clé de la semaine (lundi de la semaine)
         function getWeekKey(date) {
             const monday = getMonday(date);
-            return monday.toISOString().split('T')[0];
+            return monday.toISOString().split('T')[0]; // Format YYYY-MM-DD
         }
-
-        // Initialisation de la gestion des salaires
-        function initSalaires() {
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
             // Définir la date par défaut sur aujourd'hui
             const today = new Date();
-            document.getElementById('weekDate').value = today.toISOString().split('T')[0];
-            document.getElementById('signatureDate').value = today.toISOString().split('T')[0];
-            document.getElementById('expenseDate').value = today.toISOString().split('T')[0];
+            weekDateInput.value = today.toISOString().split('T')[0];
+            signatureDateInput.value = today.toISOString().split('T')[0];
+            expenseDateInput.value = today.toISOString().split('T')[0];
             updateCurrentWeekInfo();
             
-            // Charger les données sauvegardées
+            // Charger les données sauvegardées si disponibles
             loadData();
             
             // Mettre à jour les résumés
@@ -894,13 +955,13 @@
             updateExpensesTable();
             
             // Configuration des onglets
-            document.querySelectorAll('.tab').forEach(tab => {
+            tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
                     const tabId = tab.getAttribute('data-tab');
                     
                     // Désactiver tous les onglets
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(tc => tc.classList.remove('active'));
                     
                     // Activer l'onglet sélectionné
                     tab.classList.add('active');
@@ -914,47 +975,66 @@
             });
             
             // Configuration des options de commission
-            document.querySelectorAll('.commission-option').forEach(option => {
+            commissionOptions.forEach(option => {
                 option.addEventListener('click', () => {
-                    document.querySelectorAll('.commission-option').forEach(o => o.classList.remove('selected'));
+                    commissionOptions.forEach(o => o.classList.remove('selected'));
                     option.classList.add('selected');
                     
                     if (option.getAttribute('data-percent') === 'custom') {
-                        document.getElementById('customPercentContainer').style.display = 'block';
+                        customPercentContainer.style.display = 'block';
                         selectedCommissionPercent = 0;
                     } else {
-                        document.getElementById('customPercentContainer').style.display = 'none';
+                        customPercentContainer.style.display = 'none';
                         selectedCommissionPercent = parseInt(option.getAttribute('data-percent'));
                     }
                 });
             });
             
-            // Événements
-            document.getElementById('calculateCommission').addEventListener('click', calculateCommission);
-            document.getElementById('addEmployee').addEventListener('click', addEmployee);
-            document.getElementById('addPartnership').addEventListener('click', addOrUpdatePartnership);
-            document.getElementById('addExpense').addEventListener('click', addOrUpdateExpense);
-            document.getElementById('updateExpenses').addEventListener('click', updateExpenses);
-            document.getElementById('distributeBonuses').addEventListener('click', distributeBonuses);
-            document.getElementById('weekDate').addEventListener('change', updateCurrentWeekInfo);
-            document.getElementById('summaryWeekSelector').addEventListener('change', updateWeeklySummary);
-            document.getElementById('chartType').addEventListener('change', updateCharts);
-            document.getElementById('weekSelector').addEventListener('change', updateCharts);
+            // Calculer la commission
+            calculateCommissionBtn.addEventListener('click', calculateCommission);
+            
+            // Ajouter un employé
+            addEmployeeBtn.addEventListener('click', addEmployee);
+            
+            // Ajouter ou modifier un partenariat
+            addPartnershipBtn.addEventListener('click', addOrUpdatePartnership);
+            
+            // Ajouter ou modifier une dépense
+            addExpenseBtn.addEventListener('click', addOrUpdateExpense);
+            
+            // Mettre à jour les dépenses
+            updateExpensesBtn.addEventListener('click', updateExpenses);
+            
+            // Distribuer les primes
+            distributeBonusesBtn.addEventListener('click', distributeBonuses);
+            
+            // Changer la date de la semaine
+            weekDateInput.addEventListener('change', updateCurrentWeekInfo);
+            
+            // Changer la semaine dans le résumé
+            summaryWeekSelector.addEventListener('change', updateWeeklySummary);
+            
+            // Changer le type de graphique
+            chartTypeSelect.addEventListener('change', updateCharts);
+            
+            // Changer la semaine sélectionnée
+            weekSelector.addEventListener('change', updateCharts);
             
             // Sélectionner 15% par défaut
             document.querySelector('.commission-option[data-percent="15"]').click();
-        }
-
+        });
+        
+        // Fonctions
         function updateCurrentWeekInfo() {
-            const weekRange = formatWeekRange(new Date(document.getElementById('weekDate').value));
-            document.getElementById('currentWeekInfo').textContent = weekRange;
+            const weekRange = formatWeekRange(new Date(weekDateInput.value));
+            currentWeekInfo.textContent = weekRange;
         }
-
+        
         function addEmployee() {
-            const weekDate = document.getElementById('weekDate').value;
-            const name = document.getElementById('employeeName').value.trim();
-            const grade = document.getElementById('employeeGrade').value;
-            const revenue = parseFloat(document.getElementById('weeklyRevenue').value) || 0;
+            const weekDate = weekDateInput.value;
+            const name = employeeNameInput.value.trim();
+            const grade = employeeGradeInput.value;
+            const revenue = parseFloat(weeklyRevenueInput.value) || 0;
             
             if (!name) {
                 alert('Veuillez entrer un nom valide');
@@ -1007,20 +1087,217 @@
             saveData();
             
             // Réinitialiser les champs (sauf la date)
-            document.getElementById('employeeName').value = '';
-            document.getElementById('employeeGrade').value = 'employe';
-            document.getElementById('weeklyRevenue').value = '';
+            employeeNameInput.value = '';
+            employeeGradeInput.value = 'employe';
+            weeklyRevenueInput.value = '';
         }
-
+        
+        function addOrUpdatePartnership() {
+            const name = partnerNameInput.value.trim();
+            const contractType = contractTypeInput.value;
+            const signatureDate = signatureDateInput.value;
+            const services = partnerServicesInput.value.trim();
+            const discount = parseFloat(discountPercentageInput.value) || 0;
+            const contact = contactPersonInput.value.trim();
+            const status = contractStatusInput.value;
+            
+            if (!name) {
+                alert('Veuillez entrer un nom d\'entreprise valide');
+                return;
+            }
+            
+            if (!signatureDate) {
+                alert('Veuillez sélectionner une date de signature');
+                return;
+            }
+            
+            if (editingPartnershipId) {
+                // Mettre à jour un partenariat existant
+                const partnershipIndex = partnershipsData.findIndex(p => p.id === editingPartnershipId);
+                if (partnershipIndex !== -1) {
+                    partnershipsData[partnershipIndex] = {
+                        id: editingPartnershipId,
+                        name: name,
+                        contractType: contractType,
+                        signatureDate: signatureDate,
+                        services: services,
+                        discount: discount,
+                        contact: contact,
+                        status: status
+                    };
+                    
+                    // Réinitialiser le mode édition
+                    editingPartnershipId = null;
+                    addPartnershipBtn.textContent = 'Ajouter';
+                    
+                    // Mettre à jour l'affichage
+                    updatePartnershipsTable();
+                    saveData();
+                    
+                    // Réinitialiser les champs
+                    resetPartnershipForm();
+                    
+                    alert('Partenariat mis à jour avec succès!');
+                }
+            } else {
+                // Ajouter un nouveau partenariat
+                const partnership = {
+                    id: Date.now(),
+                    name: name,
+                    contractType: contractType,
+                    signatureDate: signatureDate,
+                    services: services,
+                    discount: discount,
+                    contact: contact,
+                    status: status
+                };
+                
+                // Ajouter le partenariat
+                partnershipsData.push(partnership);
+                
+                // Mettre à jour l'affichage
+                updatePartnershipsTable();
+                saveData();
+                
+                // Réinitialiser les champs
+                resetPartnershipForm();
+                
+                alert('Partenariat ajouté avec succès!');
+            }
+        }
+        
+        function addOrUpdateExpense() {
+            const date = expenseDateInput.value;
+            const company = expenseCompanyInput.value.trim();
+            const cost = parseFloat(expenseCostInput.value) || 0;
+            
+            if (!date) {
+                alert('Veuillez sélectionner une date');
+                return;
+            }
+            
+            if (!company) {
+                alert('Veuillez entrer un nom d\'entreprise ou un sujet valide');
+                return;
+            }
+            
+            if (cost <= 0) {
+                alert('Veuillez entrer un coût valide');
+                return;
+            }
+            
+            if (editingExpenseId) {
+                // Mettre à jour une dépense existante
+                const expenseIndex = expensesData.findIndex(e => e.id === editingExpenseId);
+                if (expenseIndex !== -1) {
+                    expensesData[expenseIndex] = {
+                        id: editingExpenseId,
+                        date: date,
+                        company: company,
+                        cost: cost
+                    };
+                    
+                    // Réinitialiser le mode édition
+                    editingExpenseId = null;
+                    addExpenseBtn.textContent = 'Ajouter';
+                    
+                    // Mettre à jour l'affichage
+                    updateExpensesTable();
+                    updateExpensesSummary();
+                    saveData();
+                    
+                    // Réinitialiser les champs
+                    resetExpenseForm();
+                    
+                    alert('Dépense mise à jour avec succès!');
+                }
+            } else {
+                // Ajouter une nouvelle dépense
+                const expense = {
+                    id: Date.now(),
+                    date: date,
+                    company: company,
+                    cost: cost
+                };
+                
+                // Ajouter la dépense
+                expensesData.push(expense);
+                
+                // Mettre à jour l'affichage
+                updateExpensesTable();
+                updateExpensesSummary();
+                saveData();
+                
+                // Réinitialiser les champs
+                resetExpenseForm();
+                
+                alert('Dépense ajoutée avec succès!');
+            }
+        }
+        
+        function resetPartnershipForm() {
+            partnerNameInput.value = '';
+            contractTypeInput.value = 'partenariat';
+            signatureDateInput.value = new Date().toISOString().split('T')[0];
+            partnerServicesInput.value = '';
+            discountPercentageInput.value = 0;
+            contactPersonInput.value = '';
+            contractStatusInput.value = 'actif';
+        }
+        
+        function resetExpenseForm() {
+            expenseDateInput.value = new Date().toISOString().split('T')[0];
+            expenseCompanyInput.value = '';
+            expenseCostInput.value = '';
+        }
+        
+        function editPartnership(partnershipId) {
+            const partnership = partnershipsData.find(p => p.id === partnershipId);
+            if (partnership) {
+                // Remplir le formulaire avec les données du partenariat
+                partnerNameInput.value = partnership.name;
+                contractTypeInput.value = partnership.contractType;
+                signatureDateInput.value = partnership.signatureDate;
+                partnerServicesInput.value = partnership.services;
+                discountPercentageInput.value = partnership.discount;
+                contactPersonInput.value = partnership.contact;
+                contractStatusInput.value = partnership.status;
+                
+                // Passer en mode édition
+                editingPartnershipId = partnershipId;
+                addPartnershipBtn.textContent = 'Mettre à jour';
+                
+                // Faire défiler vers le formulaire
+                document.getElementById('partnerships').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function editExpense(expenseId) {
+            const expense = expensesData.find(e => e.id === expenseId);
+            if (expense) {
+                // Remplir le formulaire avec les données de la dépense
+                expenseDateInput.value = expense.date;
+                expenseCompanyInput.value = expense.company;
+                expenseCostInput.value = expense.cost;
+                
+                // Passer en mode édition
+                editingExpenseId = expenseId;
+                addExpenseBtn.textContent = 'Mettre à jour';
+                
+                // Faire défiler vers le formulaire
+                document.getElementById('expenses').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
         function updateWeekTotals(weekData) {
             weekData.totalRevenue = weekData.employees.reduce((sum, employee) => sum + employee.weeklyRevenue, 0);
             weekData.totalSalaries = weekData.employees.reduce((sum, employee) => sum + employee.salary, 0);
         }
-
+        
         function updateEmployeesTable() {
-            const employeesTable = document.getElementById('employeesTable').getElementsByTagName('tbody')[0];
             employeesTable.innerHTML = '';
             
+            // Afficher tous les employés de toutes les semaines
             weeklyData.forEach(weekData => {
                 weekData.employees.forEach(employee => {
                     const row = employeesTable.insertRow();
@@ -1054,7 +1331,95 @@
                 });
             });
         }
-
+        
+        function updatePartnershipsTable() {
+            partnershipsTable.innerHTML = '';
+            
+            // Afficher tous les partenariats
+            partnershipsData.forEach(partnership => {
+                const row = partnershipsTable.insertRow();
+                
+                const nameCell = row.insertCell(0);
+                nameCell.textContent = partnership.name;
+                
+                const contractTypeCell = row.insertCell(1);
+                contractTypeCell.textContent = partnership.contractType;
+                
+                const signatureDateCell = row.insertCell(2);
+                signatureDateCell.textContent = new Date(partnership.signatureDate).toLocaleDateString('fr-FR');
+                
+                const servicesCell = row.insertCell(3);
+                servicesCell.textContent = partnership.services;
+                
+                const discountCell = row.insertCell(4);
+                discountCell.textContent = `${partnership.discount}%`;
+                
+                const contactCell = row.insertCell(5);
+                contactCell.textContent = partnership.contact;
+                
+                const statusCell = row.insertCell(6);
+                const statusBadge = document.createElement('span');
+                statusBadge.textContent = STATUS_NAMES[partnership.status];
+                statusBadge.classList.add('status-badge', `status-${partnership.status}`);
+                statusCell.appendChild(statusBadge);
+                
+                const actionsCell = row.insertCell(7);
+                const actionButtons = document.createElement('div');
+                actionButtons.classList.add('action-buttons');
+                
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Modifier';
+                editBtn.classList.add('btn-warning');
+                editBtn.addEventListener('click', () => editPartnership(partnership.id));
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Supprimer';
+                deleteBtn.classList.add('btn-danger');
+                deleteBtn.addEventListener('click', () => deletePartnership(partnership.id));
+                
+                actionButtons.appendChild(editBtn);
+                actionButtons.appendChild(deleteBtn);
+                actionsCell.appendChild(actionButtons);
+            });
+        }
+        
+        function updateExpensesTable() {
+            expensesTable.innerHTML = '';
+            
+            // Afficher toutes les dépenses
+            expensesData.forEach(expense => {
+                const row = expensesTable.insertRow();
+                
+                const dateCell = row.insertCell(0);
+                dateCell.textContent = new Date(expense.date).toLocaleDateString('fr-FR');
+                
+                const companyCell = row.insertCell(1);
+                companyCell.textContent = expense.company;
+                
+                const costCell = row.insertCell(2);
+                costCell.textContent = `$${expense.cost.toLocaleString()}`;
+                costCell.classList.add('money', 'negative');
+                
+                const actionsCell = row.insertCell(3);
+                const actionButtons = document.createElement('div');
+                actionButtons.classList.add('action-buttons');
+                
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Modifier';
+                editBtn.classList.add('btn-warning');
+                editBtn.addEventListener('click', () => editExpense(expense.id));
+                
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Supprimer';
+                deleteBtn.classList.add('btn-danger');
+                deleteBtn.addEventListener('click', () => deleteExpense(expense.id));
+                
+                actionButtons.appendChild(editBtn);
+                actionButtons.appendChild(deleteBtn);
+                actionsCell.appendChild(actionButtons);
+            });
+        }
+        
         function deleteEmployee(weekKey, employeeId) {
             const weekData = weeklyData.find(w => w.weekKey === weekKey);
             if (weekData) {
@@ -1073,9 +1438,42 @@
                 saveData();
             }
         }
-
+        
+        function deletePartnership(partnershipId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce partenariat ?')) {
+                partnershipsData = partnershipsData.filter(p => p.id !== partnershipId);
+                
+                // Si on supprime un partenariat en cours d'édition, réinitialiser le formulaire
+                if (editingPartnershipId === partnershipId) {
+                    editingPartnershipId = null;
+                    addPartnershipBtn.textContent = 'Ajouter';
+                    resetPartnershipForm();
+                }
+                
+                updatePartnershipsTable();
+                saveData();
+            }
+        }
+        
+        function deleteExpense(expenseId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette dépense ?')) {
+                expensesData = expensesData.filter(e => e.id !== expenseId);
+                
+                // Si on supprime une dépense en cours d'édition, réinitialiser le formulaire
+                if (editingExpenseId === expenseId) {
+                    editingExpenseId = null;
+                    addExpenseBtn.textContent = 'Ajouter';
+                    resetExpenseForm();
+                }
+                
+                updateExpensesTable();
+                updateExpensesSummary();
+                saveData();
+            }
+        }
+        
         function calculateCommission() {
-            const propertyValue = parseFloat(document.getElementById('propertyValue').value);
+            const propertyValue = parseFloat(propertyValueInput.value);
             
             if (isNaN(propertyValue) || propertyValue <= 0) {
                 alert('Veuillez entrer une valeur de bien valide');
@@ -1084,8 +1482,8 @@
             
             let percent = selectedCommissionPercent;
             
-            if (document.getElementById('customPercentContainer').style.display === 'block') {
-                percent = parseFloat(document.getElementById('customPercent').value);
+            if (customPercentContainer.style.display === 'block') {
+                percent = parseFloat(customPercentInput.value);
                 if (isNaN(percent) || percent <= 0) {
                     alert('Veuillez entrer un pourcentage valide');
                     return;
@@ -1093,20 +1491,20 @@
             }
             
             const commission = propertyValue * (percent / 100);
-            document.getElementById('commissionResult').textContent = `Commission: $${commission.toLocaleString()}`;
+            commissionResult.textContent = `Commission: $${commission.toLocaleString()}`;
         }
-
+        
         function updateExpenses() {
-            expenses.taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            expenses.taxRate = parseFloat(taxRateInput.value) || 0;
             
             updateExpensesSummary();
             updateWeeklySummary();
             saveData();
         }
-
+        
         function updateExpensesSummary() {
             // Calcul pour la semaine en cours
-            const currentWeekKey = getWeekKey(new Date(document.getElementById('weekDate').value));
+            const currentWeekKey = getWeekKey(new Date(weekDateInput.value));
             const currentWeekData = weeklyData.find(w => w.weekKey === currentWeekKey);
             
             const totalRevenue = currentWeekData ? currentWeekData.totalRevenue : 0;
@@ -1128,18 +1526,18 @@
             document.getElementById('totalSalaries').textContent = `$${totalSalaries.toLocaleString()}`;
             document.getElementById('netProfit').textContent = `$${netProfit.toLocaleString()}`;
         }
-
+        
         function updateWeeklySummary() {
-            const selectedWeek = document.getElementById('summaryWeekSelector').value;
+            const selectedWeek = summaryWeekSelector.value;
             let weekData;
             
             if (selectedWeek === 'current') {
-                const currentWeekKey = getWeekKey(new Date(document.getElementById('weekDate').value));
+                const currentWeekKey = getWeekKey(new Date(weekDateInput.value));
                 weekData = weeklyData.find(w => w.weekKey === currentWeekKey);
-                document.getElementById('summaryWeekTitle').textContent = 'Semaine en cours';
+                summaryWeekTitle.textContent = 'Semaine en cours';
             } else {
                 weekData = weeklyData.find(w => w.weekKey === selectedWeek);
-                document.getElementById('summaryWeekTitle').textContent = weekData ? weekData.weekRange : 'Semaine sélectionnée';
+                summaryWeekTitle.textContent = weekData ? weekData.weekRange : 'Semaine sélectionnée';
             }
             
             const totalRevenue = weekData ? weekData.totalRevenue : 0;
@@ -1168,13 +1566,13 @@
             document.getElementById('profitAfterReserve').textContent = `$${profitAfterReserve.toLocaleString()}`;
             document.getElementById('bonusAmount').textContent = `$${bonusAmount.toLocaleString()}`;
         }
-
+        
         function distributeBonuses() {
-            const selectedWeek = document.getElementById('summaryWeekSelector').value;
+            const selectedWeek = summaryWeekSelector.value;
             let weekData;
             
             if (selectedWeek === 'current') {
-                const currentWeekKey = getWeekKey(new Date(document.getElementById('weekDate').value));
+                const currentWeekKey = getWeekKey(new Date(weekDateInput.value));
                 weekData = weeklyData.find(w => w.weekKey === currentWeekKey);
             } else {
                 weekData = weeklyData.find(w => w.weekKey === selectedWeek);
@@ -1219,28 +1617,27 @@
             
             alert(bonusMessage);
         }
-
+        
         function updateHistoryDisplay() {
             // Mettre à jour les sélecteurs de semaines
-            document.getElementById('weekSelector').innerHTML = '<option value="all">Toutes les semaines</option>';
-            document.getElementById('summaryWeekSelector').innerHTML = '<option value="current">Semaine en cours</option>';
+            weekSelector.innerHTML = '<option value="all">Toutes les semaines</option>';
+            summaryWeekSelector.innerHTML = '<option value="current">Semaine en cours</option>';
             
             weeklyData.forEach(weekData => {
                 // Pour le sélecteur des graphiques
                 const option1 = document.createElement('option');
                 option1.value = weekData.weekKey;
                 option1.textContent = weekData.weekRange;
-                document.getElementById('weekSelector').appendChild(option1);
+                weekSelector.appendChild(option1);
                 
                 // Pour le sélecteur du résumé
                 const option2 = document.createElement('option');
                 option2.value = weekData.weekKey;
                 option2.textContent = weekData.weekRange;
-                document.getElementById('summaryWeekSelector').appendChild(option2);
+                summaryWeekSelector.appendChild(option2);
             });
             
             // Mettre à jour le tableau d'historique
-            const historyTable = document.getElementById('historyTable').getElementsByTagName('tbody')[0];
             historyTable.innerHTML = '';
             weeklyData.forEach(weekData => {
                 const row = historyTable.insertRow();
@@ -1277,7 +1674,7 @@
                 actionsCell.appendChild(deleteBtn);
             });
         }
-
+        
         function deleteWeek(weekKey) {
             if (confirm('Êtes-vous sûr de vouloir supprimer cette semaine ? Toutes les données seront perdues.')) {
                 weeklyData = weeklyData.filter(w => w.weekKey !== weekKey);
@@ -1288,10 +1685,10 @@
                 saveData();
             }
         }
-
+        
         function updateCharts() {
-            const selectedWeek = document.getElementById('weekSelector').value;
-            const chartType = document.getElementById('chartType').value;
+            const selectedWeek = weekSelector.value;
+            const chartType = chartTypeSelect.value;
             
             // Graphique des employés
             const employeeCtx = document.getElementById('employeeChart').getContext('2d');
@@ -1360,7 +1757,7 @@
             
             const weekLabels = weeklyData.map(week => {
                 const date = new Date(week.weekKey);
-                return `S${date.getWeek()}`;
+                return `S${date.getWeek()}`; // Fonction getWeek à implémenter
             });
             const revenueData = weeklyData.map(week => week.totalRevenue);
             
@@ -1399,24 +1796,7 @@
             const week1 = new Date(date.getFullYear(), 0, 4);
             return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
         };
-
-        // Fonctions pour les partenariats et dépenses (simplifiées pour l'exemple)
-        function addOrUpdatePartnership() {
-            alert('Fonction partenariat - À implémenter');
-        }
-
-        function addOrUpdateExpense() {
-            alert('Fonction dépense - À implémenter');
-        }
-
-        function updatePartnershipsTable() {
-            // À implémenter
-        }
-
-        function updateExpensesTable() {
-            // À implémenter
-        }
-
+        
         function saveData() {
             const data = {
                 weeklyData: weeklyData,
@@ -1440,18 +1820,13 @@
                 };
                 
                 // Mettre à jour les champs d'entrée
-                document.getElementById('taxRate').value = expenses.taxRate;
+                taxRateInput.value = expenses.taxRate;
                 
                 updateEmployeesTable();
                 updatePartnershipsTable();
                 updateExpensesTable();
             }
         }
-
-        // Initialisation au chargement de la page
-        document.addEventListener('DOMContentLoaded', function() {
-            initSalaires();
-        });
     </script>
 </body>
 </html>

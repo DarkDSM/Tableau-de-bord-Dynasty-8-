@@ -448,16 +448,16 @@
     </div>
 
     <script>
-        // AJOUT: Configuration GitHub - À PERSONNALISER
+        // CONFIGURATION GITHUB - MODIFIÉE pour disponibilites.json
         const GITHUB_USER = 'DarkDSM';
         const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
-        const GITHUB_TOKEN = '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'; // À créer dans GitHub Settings
-        const JSON_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/data.json`;
+        const GITHUB_TOKEN = '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';
+        const DISPO_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/disponibilites.json`;
 
         document.addEventListener('DOMContentLoaded', function() {
             const addBtn = document.getElementById('add-availability');
             const resetBtn = document.getElementById('reset-all');
-            const refreshBtn = document.getElementById('refresh-btn'); // AJOUT: Bouton actualiser
+            const refreshBtn = document.getElementById('refresh-btn');
             let availabilityData = [];
             
             // Charger les données sauvegardées
@@ -471,7 +471,6 @@
                 if (startHour >= 13 && startHour < 17) return 'Après-midi';
                 if (startHour >= 18 && startHour < 22) return 'Soir';
                 
-                // Par défaut, utiliser la période la plus proche
                 if (startHour < 12) return 'Matin';
                 if (startHour < 18) return 'Après-midi';
                 return 'Soir';
@@ -494,7 +493,6 @@
                     return;
                 }
                 
-                // Déterminer automatiquement la période
                 const period = getPeriodFromTime(startTime, endTime);
                 
                 const availability = {
@@ -511,7 +509,6 @@
                 updateDisplay();
                 saveData();
                 
-                // Réinitialiser le formulaire
                 document.getElementById('agent-name').value = '';
             });
             
@@ -521,12 +518,11 @@
                     availabilityData = [];
                     updateDisplay();
                     localStorage.removeItem('availabilityData');
-                    // AJOUT: Supprimer aussi sur GitHub
                     saveData();
                 }
             });
 
-            // AJOUT: Actualiser les données
+            // Actualiser les données
             refreshBtn.addEventListener('click', function() {
                 console.log('🔄 Actualisation manuelle des données...');
                 loadSavedData();
@@ -535,16 +531,13 @@
             
             // Mettre à jour l'affichage
             function updateDisplay() {
-                // Réinitialiser tous les créneaux
                 document.querySelectorAll('.availability-list').forEach(list => {
                     list.innerHTML = '<div class="empty-slot">Aucune disponibilité</div>';
                 });
                 
-                // Ajouter les disponibilités
                 availabilityData.forEach(avail => {
                     const cell = document.querySelector(`[data-day="${avail.day}"][data-slot="${avail.period}"] .availability-list`);
                     if (cell) {
-                        // Supprimer le message "Aucune disponibilité" si c'est le premier
                         if (cell.innerHTML.includes('Aucune disponibilité')) {
                             cell.innerHTML = '';
                         }
@@ -564,7 +557,6 @@
                     }
                 });
                 
-                // Ajouter les événements de suppression
                 document.querySelectorAll('.delete-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const id = parseInt(this.getAttribute('data-id'));
@@ -575,7 +567,7 @@
                 });
             }
             
-            // AJOUT: Nouvelle fonction saveData avec GitHub
+            // SAUVEGARDER les données - MODIFIÉ
             async function saveData() {
                 // Sauvegarde locale
                 localStorage.setItem('availabilityData', JSON.stringify(availabilityData));
@@ -583,72 +575,61 @@
                 // Sauvegarde sur GitHub
                 try {
                     await saveToGitHub();
-                    console.log('Données sauvegardées sur GitHub');
+                    console.log('✅ Données sauvegardées sur GitHub');
                 } catch (error) {
-                    console.error('Erreur sauvegarde GitHub:', error);
+                    console.error('❌ Erreur sauvegarde GitHub:', error);
                 }
             }
             
-            // AJOUT: Charger les données sauvegardées avec GitHub
+            // CHARGER les données - MODIFIÉ
             async function loadSavedData() {
+                console.log('🔄 Chargement des données...');
+                
                 // Essayer de charger depuis GitHub d'abord
                 try {
-                    const response = await axios.get(JSON_URL + '?t=' + Date.now());
+                    const response = await axios.get(DISPO_URL + '?t=' + Date.now());
                     const githubData = response.data;
                     
-                    if (githubData.disponibilites && githubData.disponibilites.length > 0) {
-                        availabilityData = githubData.disponibilites;
-                        console.log('Données chargées depuis GitHub');
-                    } else {
-                        // Fallback sur localStorage
-                        const savedData = localStorage.getItem('availabilityData');
-                        if (savedData) {
-                            availabilityData = JSON.parse(savedData);
-                        }
-                    }
-                    updateDisplay();
-                } catch (error) {
-                    // Si GitHub échoue, utiliser localStorage
-                    console.log('Chargement depuis localStorage (GitHub inaccessible)');
-                    const savedData = localStorage.getItem('availabilityData');
-                    if (savedData) {
-                        availabilityData = JSON.parse(savedData);
+                    if (Array.isArray(githubData) && githubData.length > 0) {
+                        availabilityData = githubData;
+                        console.log('✅ Données chargées depuis GitHub:', availabilityData.length, 'disponibilités');
                         updateDisplay();
+                        return;
+                    } else {
+                        console.log('📭 GitHub vide, pas de données');
                     }
+                } catch (error) {
+                    console.log('❌ GitHub inaccessible:', error.message);
+                }
+                
+                // Fallback sur localStorage
+                const savedData = localStorage.getItem('availabilityData');
+                if (savedData) {
+                    availabilityData = JSON.parse(savedData);
+                    console.log('💾 Données chargées depuis localStorage');
+                    updateDisplay();
                 }
             }
             
-            // AJOUT: Sauvegarder sur GitHub
+            // SAUVEGARDER sur GitHub - MODIFIÉ
             async function saveToGitHub() {
-                // Récupérer le fichier actuel pour avoir le SHA
+                // Récupérer le fichier actuel
                 const fileResponse = await axios.get(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/data.json`,
-                    {
-                        headers: { Authorization: `token ${GITHUB_TOKEN}` }
-                    }
+                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
+                    { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
                 );
                 
                 const fileSha = fileResponse.data.sha;
                 
-                // Préparer les données à sauvegarder
-                const dataToSave = {
-                    disponibilites: availabilityData,
-                    baux: [],
-                    salaires: [],
-                    lastUpdate: new Date().toISOString()
-                };
-                
-                // Mettre à jour le fichier
+                // Sauvegarder seulement les disponibilités
                 await axios.put(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/data.json`,
+                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
                     {
-                        message: `Mise à jour des disponibilités - ${new Date().toLocaleString('fr-FR')}`,
-                        content: btoa(JSON.stringify(dataToSave, null, 2)),
+                        message: `Mise à jour disponibilités - ${new Date().toLocaleString('fr-FR')}`,
+                        content: btoa(JSON.stringify(availabilityData, null, 2)),
                         sha: fileSha
                     },
-                    {
-                        headers: { Authorization: `token ${GITHUB_TOKEN}` }
-                    }
+                    { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
                 );
             }
             

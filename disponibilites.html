@@ -6,7 +6,6 @@
     <title>Disponibilités - Agence Immobilière</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
-        /* [TON CSS EXISTANT - RIEN À CHANGER] */
         :root {
             --primary-color: #3498db;
             --secondary-color: #2c3e50;
@@ -447,175 +446,131 @@
     </div>
 
     <script>
-    // CONFIGURATION GITHUB - TOKEN CLASSIQUE
-    const GITHUB_USER = 'DarkDSM';
-    const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
-    const GITHUB_TOKEN = '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'; // ⬅️ METS TON TOKEN CLASSIQUE ICI
+        // CONFIGURATION GITHUB - TOKEN CLASSIQUE
+        const GITHUB_USER = 'DarkDSM';
+        const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
+        const GITHUB_TOKEN = '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';
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const addBtn = document.getElementById('add-availability');
-        const resetBtn = document.getElementById('reset-all');
-        const refreshBtn = document.getElementById('refresh-btn');
-        let availabilityData = [];
-        
-        loadSavedData();
-        
-        function getPeriodFromTime(startTime, endTime) {
-            const startHour = parseInt(startTime.split(':')[0]);
-            if (startHour >= 8 && startHour < 12) return 'Matin';
-            if (startHour >= 13 && startHour < 17) return 'Après-midi';
-            if (startHour >= 18 && startHour < 22) return 'Soir';
-            if (startHour < 12) return 'Matin';
-            if (startHour < 18) return 'Après-midi';
-            return 'Soir';
-        }
-        
-        addBtn.addEventListener('click', function() {
-            const agentName = document.getElementById('agent-name').value.trim();
-            const day = document.getElementById('day-select').value;
-            const startTime = document.getElementById('start-time').value;
-            const endTime = document.getElementById('end-time').value;
+        document.addEventListener('DOMContentLoaded', function() {
+            const addBtn = document.getElementById('add-availability');
+            const resetBtn = document.getElementById('reset-all');
+            const refreshBtn = document.getElementById('refresh-btn');
+            let availabilityData = [];
             
-            if (!agentName) {
-                alert('Veuillez entrer votre nom');
-                return;
+            loadSavedData();
+            
+            function getPeriodFromTime(startTime, endTime) {
+                const startHour = parseInt(startTime.split(':')[0]);
+                if (startHour >= 8 && startHour < 12) return 'Matin';
+                if (startHour >= 13 && startHour < 17) return 'Après-midi';
+                if (startHour >= 18 && startHour < 22) return 'Soir';
+                if (startHour < 12) return 'Matin';
+                if (startHour < 18) return 'Après-midi';
+                return 'Soir';
             }
             
-            if (!startTime || !endTime) {
-                alert('Veuillez sélectionner les horaires');
-                return;
-            }
-            
-            const period = getPeriodFromTime(startTime, endTime);
-            const availability = {
-                id: Date.now(),
-                agentName: agentName,
-                day: day,
-                startTime: startTime,
-                endTime: endTime,
-                period: period,
-                timestamp: new Date().toLocaleString('fr-FR')
-            };
-            
-            availabilityData.push(availability);
-            updateDisplay();
-            saveData();
-            document.getElementById('agent-name').value = '';
-        });
-        
-        resetBtn.addEventListener('click', function() {
-            if (confirm('Voulez-vous vraiment supprimer toutes les disponibilités ?')) {
-                availabilityData = [];
+            addBtn.addEventListener('click', function() {
+                const agentName = document.getElementById('agent-name').value.trim();
+                const day = document.getElementById('day-select').value;
+                const startTime = document.getElementById('start-time').value;
+                const endTime = document.getElementById('end-time').value;
+                
+                if (!agentName) {
+                    alert('Veuillez entrer votre nom');
+                    return;
+                }
+                
+                if (!startTime || !endTime) {
+                    alert('Veuillez sélectionner les horaires');
+                    return;
+                }
+                
+                const period = getPeriodFromTime(startTime, endTime);
+                const availability = {
+                    id: Date.now(),
+                    agentName: agentName,
+                    day: day,
+                    startTime: startTime,
+                    endTime: endTime,
+                    period: period,
+                    timestamp: new Date().toLocaleString('fr-FR')
+                };
+                
+                availabilityData.push(availability);
                 updateDisplay();
                 saveData();
-            }
-        });
-
-        refreshBtn.addEventListener('click', function() {
-            console.log('🔄 Actualisation manuelle...');
-            loadSavedData();
-        });
-        
-        function updateDisplay() {
-            document.querySelectorAll('.availability-list').forEach(list => {
-                list.innerHTML = '<div class="empty-slot">Aucune disponibilité</div>';
+                document.getElementById('agent-name').value = '';
             });
             
-            availabilityData.forEach(avail => {
-                const cell = document.querySelector(`[data-day="${avail.day}"][data-slot="${avail.period}"] .availability-list`);
-                if (cell) {
-                    if (cell.innerHTML.includes('Aucune disponibilité')) {
-                        cell.innerHTML = '';
-                    }
-                    
-                    const agentItem = document.createElement('div');
-                    agentItem.className = 'agent-item';
-                    agentItem.innerHTML = `
-                        <div class="agent-info">
-                            <span class="agent-name">${avail.agentName}</span>
-                            <span class="agent-hours">${avail.startTime} - ${avail.endTime}</span>
-                        </div>
-                        <button class="delete-btn" data-id="${avail.id}" title="Supprimer">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                    cell.appendChild(agentItem);
-                }
-            });
-            
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const id = parseInt(this.getAttribute('data-id'));
-                    availabilityData = availabilityData.filter(avail => avail.id !== id);
+            resetBtn.addEventListener('click', function() {
+                if (confirm('Voulez-vous vraiment supprimer toutes les disponibilités ?')) {
+                    availabilityData = [];
                     updateDisplay();
                     saveData();
-                });
+                }
             });
-        }
-        
-        // SAUVEGARDER - GitHub uniquement
-        async function saveData() {
-            try {
-                await saveToGitHub();
-                console.log('✅ Données sauvegardées sur GitHub');
-                showNotification('✅ Données sauvegardées avec succès!');
-            } catch (error) {
-                console.error('❌ Erreur sauvegarde GitHub:', error.message);
-                showNotification('❌ Erreur de sauvegarde cloud');
-            }
-        }
-        
-        // CHARGER - GitHub uniquement
-async function loadSavedData() {
-    console.log('🔄 Chargement des données...');
-    
-    try {
-        console.log('📡 Connexion à GitHub API...');
-        const response = await axios.get(
-            `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
-            { 
-                headers: { 
-                    Authorization: `token ${GITHUB_TOKEN}`,
-                    'Accept': 'application/vnd.github.v3+json'
-                } 
-            }
-        );
-        
-        // Les données sont encodées en base64 dans l'API GitHub
-        const content = response.data.content;
-        const decodedContent = atob(content.replace(/\n/g, ''));
-        const data = JSON.parse(decodedContent);
-        
-        if (Array.isArray(data) && data.length > 0) {
-            availabilityData = data;
-            console.log('✅ Données GitHub chargées:', availabilityData.length, 'disponibilités');
-            updateDisplay();
-            showNotification('✅ Données synchronisées depuis le cloud');
-        } else {
-            console.log('📭 GitHub vide');
-            availabilityData = [];
-            updateDisplay();
-        }
-    } catch (error) {
-        if (error.response && error.response.status === 404) {
-            console.log('📄 Fichier non trouvé - première utilisation');
-            availabilityData = [];
-            updateDisplay();
-        } else {
-            console.log('❌ GitHub inaccessible:', error.message);
-            showNotification('⚠️ Mode hors ligne - données locales');
-            availabilityData = [];
-            updateDisplay();
-        }
-    }        
-        // SAUVEGARDER SUR GITHUB - VERSION SIMPLIFIÉE
-        async function saveToGitHub() {
-            try {
-                console.log('💾 Sauvegarde sur GitHub...');
+
+            refreshBtn.addEventListener('click', function() {
+                console.log('🔄 Actualisation manuelle...');
+                loadSavedData();
+            });
+            
+            function updateDisplay() {
+                document.querySelectorAll('.availability-list').forEach(list => {
+                    list.innerHTML = '<div class="empty-slot">Aucune disponibilité</div>';
+                });
                 
-                let fileSha = null;
+                availabilityData.forEach(avail => {
+                    const cell = document.querySelector(`[data-day="${avail.day}"][data-slot="${avail.period}"] .availability-list`);
+                    if (cell) {
+                        if (cell.innerHTML.includes('Aucune disponibilité')) {
+                            cell.innerHTML = '';
+                        }
+                        
+                        const agentItem = document.createElement('div');
+                        agentItem.className = 'agent-item';
+                        agentItem.innerHTML = `
+                            <div class="agent-info">
+                                <span class="agent-name">${avail.agentName}</span>
+                                <span class="agent-hours">${avail.startTime} - ${avail.endTime}</span>
+                            </div>
+                            <button class="delete-btn" data-id="${avail.id}" title="Supprimer">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        cell.appendChild(agentItem);
+                    }
+                });
+                
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        availabilityData = availabilityData.filter(avail => avail.id !== id);
+                        updateDisplay();
+                        saveData();
+                    });
+                });
+            }
+            
+            // SAUVEGARDER - GitHub uniquement
+            async function saveData() {
                 try {
-                    const fileResponse = await axios.get(
+                    await saveToGitHub();
+                    console.log('✅ Données sauvegardées sur GitHub');
+                    showNotification('✅ Données sauvegardées avec succès!');
+                } catch (error) {
+                    console.error('❌ Erreur sauvegarde GitHub:', error.message);
+                    showNotification('❌ Erreur de sauvegarde cloud: ' + error.message);
+                }
+            }
+            
+            // CHARGER - GitHub uniquement
+            async function loadSavedData() {
+                console.log('🔄 Chargement des données...');
+                
+                try {
+                    console.log('📡 Connexion à GitHub API...');
+                    const response = await axios.get(
                         `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
                         { 
                             headers: { 
@@ -624,61 +579,114 @@ async function loadSavedData() {
                             } 
                         }
                     );
-                    fileSha = fileResponse.data.sha;
-                } catch (error) {
-                    console.log('📄 Création nouveau fichier');
-                }
-                
-                const response = await axios.put(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
-                    {
-                        message: `Mise à jour disponibilités - ${new Date().toLocaleString('fr-FR')}`,
-                        content: btoa(JSON.stringify(availabilityData, null, 2)),
-                        sha: fileSha
-                    },
-                    { 
-                        headers: { 
-                            Authorization: `token ${GITHUB_TOKEN}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/vnd.github.v3+json'
-                        } 
+                    
+                    // Les données sont encodées en base64 dans l'API GitHub
+                    const content = response.data.content;
+                    const decodedContent = atob(content.replace(/\n/g, ''));
+                    const data = JSON.parse(decodedContent);
+                    
+                    if (Array.isArray(data) && data.length > 0) {
+                        availabilityData = data;
+                        console.log('✅ Données GitHub chargées:', availabilityData.length, 'disponibilités');
+                        updateDisplay();
+                        showNotification('✅ Données synchronisées depuis le cloud');
+                    } else {
+                        console.log('📭 GitHub vide');
+                        availabilityData = [];
+                        updateDisplay();
                     }
-                );
-                
-                console.log('✅ Sauvegarde GitHub réussie !');
-                return true;
-                
-            } catch (error) {
-                console.error('❌ Erreur sauvegarde GitHub:', error.response?.data || error.message);
-                throw error;
+                } catch (error) {
+                    if (error.response && error.response.status === 404) {
+                        console.log('📄 Fichier non trouvé - première utilisation');
+                        availabilityData = [];
+                        updateDisplay();
+                        showNotification('📄 Première utilisation - fichier créé');
+                    } else {
+                        console.log('❌ GitHub inaccessible:', error.message);
+                        showNotification('❌ Erreur connexion: ' + error.message);
+                        availabilityData = [];
+                        updateDisplay();
+                    }
+                }
             }
-        }
-        
-        // Notification stylée
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: var(--success-color);
-                color: white;
-                padding: 15px 20px;
-                border-radius: 8px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-                z-index: 10000;
-                font-weight: bold;
-            `;
-            notification.textContent = message;
-            document.body.appendChild(notification);
             
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-        
-        document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');
-    });
-</script>
+            // SAUVEGARDER SUR GITHUB
+            async function saveToGitHub() {
+                try {
+                    console.log('💾 Sauvegarde sur GitHub...');
+                    
+                    let fileSha = null;
+                    try {
+                        const fileResponse = await axios.get(
+                            `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
+                            { 
+                                headers: { 
+                                    Authorization: `token ${GITHUB_TOKEN}`,
+                                    'Accept': 'application/vnd.github.v3+json'
+                                } 
+                            }
+                        );
+                        fileSha = fileResponse.data.sha;
+                        console.log('📁 SHA récupéré');
+                    } catch (error) {
+                        console.log('📄 Création nouveau fichier');
+                    }
+                    
+                    const response = await axios.put(
+                        `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
+                        {
+                            message: `Mise à jour disponibilités - ${new Date().toLocaleString('fr-FR')}`,
+                            content: btoa(JSON.stringify(availabilityData, null, 2)),
+                            sha: fileSha
+                        },
+                        { 
+                            headers: { 
+                                Authorization: `token ${GITHUB_TOKEN}`,
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/vnd.github.v3+json'
+                            } 
+                        }
+                    );
+                    
+                    console.log('✅ Sauvegarde GitHub réussie !');
+                    return true;
+                    
+                } catch (error) {
+                    console.error('❌ Erreur sauvegarde GitHub:', error.response?.data || error.message);
+                    throw error;
+                }
+            }
+            
+            // Notification stylée
+            function showNotification(message) {
+                // Supprimer les notifications existantes
+                document.querySelectorAll('.custom-notification').forEach(n => n.remove());
+                
+                const notification = document.createElement('div');
+                notification.className = 'custom-notification';
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${message.includes('✅') ? 'var(--success-color)' : message.includes('❌') ? 'var(--accent-color)' : '#3498db'};
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                    z-index: 10000;
+                    font-weight: bold;
+                    max-width: 300px;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 4000);
+            }
+            
+            document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');
+        });
+    </script>
 </body>
 </html>

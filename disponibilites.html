@@ -6,6 +6,7 @@
     <title>Disponibilités - Agence Immobilière</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
+        /* [TON CSS EXISTANT - RIEN À CHANGER] */
         :root {
             --primary-color: #3498db;
             --secondary-color: #2c3e50;
@@ -449,7 +450,7 @@
         // CONFIGURATION GITHUB - AVEC ÉCRITURE
         const GITHUB_USER = 'DarkDSM';
         const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
-        const GITHUB_TOKEN = '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'; // ⬅️ REMPLACE PAR TON VRAI TOKEN
+        const GITHUB_TOKEN = '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';
         const DISPO_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/disponibilites.json`;
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -602,26 +603,54 @@
                 }
             }
             
-            // SAUVEGARDER SUR GITHUB
+            // SAUVEGARDER SUR GITHUB - FONCTION CORRIGÉE
             async function saveToGitHub() {
-                // Récupérer le fichier actuel
-                const fileResponse = await axios.get(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
-                    { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
-                );
-                
-                const fileSha = fileResponse.data.sha;
-                
-                // Sauvegarder les données
-                await axios.put(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
-                    {
-                        message: `Mise à jour disponibilités - ${new Date().toLocaleString('fr-FR')}`,
-                        content: btoa(JSON.stringify(availabilityData, null, 2)),
-                        sha: fileSha
-                    },
-                    { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
-                );
+                try {
+                    console.log('💾 Tentative de sauvegarde GitHub...');
+                    
+                    // D'abord, on récupère le SHA du fichier existant (s'il existe)
+                    let fileSha = null;
+                    try {
+                        const fileResponse = await axios.get(
+                            `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
+                            { 
+                                headers: { 
+                                    Authorization: `token ${GITHUB_TOKEN}`,
+                                    'Accept': 'application/vnd.github.v3+json'
+                                } 
+                            }
+                        );
+                        fileSha = fileResponse.data.sha;
+                        console.log('📁 SHA récupéré:', fileSha);
+                    } catch (error) {
+                        console.log('📄 Fichier non trouvé, création nouvelle sauvegarde');
+                        // Le fichier n'existe pas encore, c'est normal pour la première sauvegarde
+                    }
+                    
+                    // Ensuite on sauvegarde
+                    const response = await axios.put(
+                        `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
+                        {
+                            message: `Mise à jour disponibilités - ${new Date().toLocaleString('fr-FR')}`,
+                            content: btoa(JSON.stringify(availabilityData, null, 2)),
+                            sha: fileSha // sera null si le fichier n'existe pas
+                        },
+                        { 
+                            headers: { 
+                                Authorization: `token ${GITHUB_TOKEN}`,
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/vnd.github.v3+json'
+                            } 
+                        }
+                    );
+                    
+                    console.log('✅ Sauvegarde GitHub réussie !');
+                    return true;
+                    
+                } catch (error) {
+                    console.error('❌ Erreur sauvegarde GitHub:', error.response?.data || error.message);
+                    throw error;
+                }
             }
             
             document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');

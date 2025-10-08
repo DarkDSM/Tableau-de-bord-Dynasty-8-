@@ -459,7 +459,6 @@
         const refreshBtn = document.getElementById('refresh-btn');
         let availabilityData = [];
         
-        // Charger les données sauvegardées
         loadSavedData();
         
         function getPeriodFromTime(startTime, endTime) {
@@ -510,7 +509,6 @@
                 availabilityData = [];
                 updateDisplay();
                 localStorage.removeItem('availabilityData');
-                saveData();
             }
         });
 
@@ -567,27 +565,29 @@
         async function loadSavedData() {
             console.log('🔄 Chargement...');
             
-            // Essayer GitHub
+            // Essayer GitHub (lecture seule, pas besoin de token)
             try {
-                console.log('📡 Tentative GitHub...');
+                console.log('📡 Tentative de lecture depuis GitHub...');
                 const response = await axios.get(DISPO_URL + '?t=' + Date.now());
-                console.log('📦 Réponse GitHub:', response.data);
+                console.log('✅ GitHub accessible');
                 
                 if (Array.isArray(response.data) && response.data.length > 0) {
                     availabilityData = response.data;
-                    console.log('✅ GitHub:', availabilityData.length, 'disponibilités');
+                    console.log('📥 Données GitHub chargées:', availabilityData.length, 'disponibilités');
                     updateDisplay();
                     return;
+                } else {
+                    console.log('📭 GitHub vide');
                 }
             } catch (error) {
-                console.log('❌ GitHub erreur:', error.message);
+                console.log('❌ Impossible de lire GitHub:', error.message);
             }
             
             // Fallback localStorage
             const savedData = localStorage.getItem('availabilityData');
             if (savedData) {
                 availabilityData = JSON.parse(savedData);
-                console.log('💾 LocalStorage:', availabilityData.length, 'disponibilités');
+                console.log('💾 Données locales chargées:', availabilityData.length, 'disponibilités');
                 updateDisplay();
             } else {
                 console.log('📭 Aucune donnée trouvée');

@@ -434,6 +434,10 @@
                 <button class="btn btn-secondary" id="reset-all">
                     <i class="fas fa-trash"></i> Tout réinitialiser
                 </button>
+                <!-- BOUTON ACTUALISER AJOUTÉ -->
+                <button class="btn" id="refresh-btn">
+                    <i class="fas fa-sync-alt"></i> Actualiser les données
+                </button>
             </div>
             
             <footer>
@@ -453,6 +457,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const addBtn = document.getElementById('add-availability');
             const resetBtn = document.getElementById('reset-all');
+            const refreshBtn = document.getElementById('refresh-btn'); // AJOUT: Bouton actualiser
             let availabilityData = [];
             
             // Charger les données sauvegardées
@@ -519,6 +524,13 @@
                     // AJOUT: Supprimer aussi sur GitHub
                     saveData();
                 }
+            });
+
+            // AJOUT: Actualiser les données
+            refreshBtn.addEventListener('click', function() {
+                console.log('🔄 Actualisation manuelle des données...');
+                loadSavedData();
+                alert('Données actualisées !');
             });
             
             // Mettre à jour l'affichage

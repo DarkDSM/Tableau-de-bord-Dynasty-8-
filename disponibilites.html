@@ -451,7 +451,6 @@
     const GITHUB_USER = 'DarkDSM';
     const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
     const GITHUB_TOKEN = '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'; // ⬅️ METS TON TOKEN CLASSIQUE ICI
-    const DISPO_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/disponibilites.json`;
 
     document.addEventListener('DOMContentLoaded', function() {
         const addBtn = document.getElementById('add-availability');
@@ -567,37 +566,48 @@
         }
         
         // CHARGER - GitHub uniquement
-        async function loadSavedData() {
-            console.log('🔄 Chargement des données...');
-            
-            try {
-                console.log('📡 Connexion à GitHub...');
-                const response = await axios.get(DISPO_URL + '?t=' + Date.now(), {
-                    headers: {
-                        Authorization: `token ${GITHUB_TOKEN}`,
-                        'Accept': 'application/vnd.github.v3+json'
-                    }
-                });
-                
-                if (Array.isArray(response.data) && response.data.length > 0) {
-                    availabilityData = response.data;
-                    console.log('✅ Données GitHub chargées:', availabilityData.length, 'disponibilités');
-                    updateDisplay();
-                    showNotification('✅ Données synchronisées depuis le cloud');
-                } else {
-                    console.log('📭 GitHub vide');
-                    availabilityData = [];
-                    updateDisplay();
-                }
-            } catch (error) {
-                console.log('❌ GitHub inaccessible:', error.message);
-                showNotification('⚠️ Mode hors ligne - données locales');
-                // En cas d'erreur, on initialise juste un tableau vide
-                availabilityData = [];
-                updateDisplay();
+async function loadSavedData() {
+    console.log('🔄 Chargement des données...');
+    
+    try {
+        console.log('📡 Connexion à GitHub API...');
+        const response = await axios.get(
+            `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
+            { 
+                headers: { 
+                    Authorization: `token ${GITHUB_TOKEN}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                } 
             }
-        }
+        );
         
+        // Les données sont encodées en base64 dans l'API GitHub
+        const content = response.data.content;
+        const decodedContent = atob(content.replace(/\n/g, ''));
+        const data = JSON.parse(decodedContent);
+        
+        if (Array.isArray(data) && data.length > 0) {
+            availabilityData = data;
+            console.log('✅ Données GitHub chargées:', availabilityData.length, 'disponibilités');
+            updateDisplay();
+            showNotification('✅ Données synchronisées depuis le cloud');
+        } else {
+            console.log('📭 GitHub vide');
+            availabilityData = [];
+            updateDisplay();
+        }
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            console.log('📄 Fichier non trouvé - première utilisation');
+            availabilityData = [];
+            updateDisplay();
+        } else {
+            console.log('❌ GitHub inaccessible:', error.message);
+            showNotification('⚠️ Mode hors ligne - données locales');
+            availabilityData = [];
+            updateDisplay();
+        }
+    }        
         // SAUVEGARDER SUR GITHUB - VERSION SIMPLIFIÉE
         async function saveToGitHub() {
             try {

@@ -448,194 +448,154 @@
     </div>
 
     <script>
-        // CONFIGURATION GITHUB - MODIFIÉE pour disponibilites.json
-        const GITHUB_USER = 'DarkDSM';
-        const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
-        const GITHUB_TOKEN = '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';
-        const DISPO_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/disponibilites.json`;
+    // CONFIGURATION GITHUB - LECTURE SEULEMENT
+    const GITHUB_USER = 'DarkDSM';
+    const GITHUB_REPO = 'Tableau-de-bord-Dynasty-8-';
+    const DISPO_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/disponibilites.json`;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const addBtn = document.getElementById('add-availability');
-            const resetBtn = document.getElementById('reset-all');
-            const refreshBtn = document.getElementById('refresh-btn');
-            let availabilityData = [];
+    document.addEventListener('DOMContentLoaded', function() {
+        const addBtn = document.getElementById('add-availability');
+        const resetBtn = document.getElementById('reset-all');
+        const refreshBtn = document.getElementById('refresh-btn');
+        let availabilityData = [];
+        
+        // Charger les données sauvegardées
+        loadSavedData();
+        
+        function getPeriodFromTime(startTime, endTime) {
+            const startHour = parseInt(startTime.split(':')[0]);
+            if (startHour >= 8 && startHour < 12) return 'Matin';
+            if (startHour >= 13 && startHour < 17) return 'Après-midi';
+            if (startHour >= 18 && startHour < 22) return 'Soir';
+            if (startHour < 12) return 'Matin';
+            if (startHour < 18) return 'Après-midi';
+            return 'Soir';
+        }
+        
+        addBtn.addEventListener('click', function() {
+            const agentName = document.getElementById('agent-name').value.trim();
+            const day = document.getElementById('day-select').value;
+            const startTime = document.getElementById('start-time').value;
+            const endTime = document.getElementById('end-time').value;
             
-            // Charger les données sauvegardées
-            loadSavedData();
-            
-            // Déterminer automatiquement la période en fonction des horaires
-            function getPeriodFromTime(startTime, endTime) {
-                const startHour = parseInt(startTime.split(':')[0]);
-                
-                if (startHour >= 8 && startHour < 12) return 'Matin';
-                if (startHour >= 13 && startHour < 17) return 'Après-midi';
-                if (startHour >= 18 && startHour < 22) return 'Soir';
-                
-                if (startHour < 12) return 'Matin';
-                if (startHour < 18) return 'Après-midi';
-                return 'Soir';
+            if (!agentName) {
+                alert('Veuillez entrer votre nom');
+                return;
             }
             
-            // Ajouter une disponibilité
-            addBtn.addEventListener('click', function() {
-                const agentName = document.getElementById('agent-name').value.trim();
-                const day = document.getElementById('day-select').value;
-                const startTime = document.getElementById('start-time').value;
-                const endTime = document.getElementById('end-time').value;
-                
-                if (!agentName) {
-                    alert('Veuillez entrer votre nom');
-                    return;
-                }
-                
-                if (!startTime || !endTime) {
-                    alert('Veuillez sélectionner les horaires');
-                    return;
-                }
-                
-                const period = getPeriodFromTime(startTime, endTime);
-                
-                const availability = {
-                    id: Date.now(),
-                    agentName: agentName,
-                    day: day,
-                    startTime: startTime,
-                    endTime: endTime,
-                    period: period,
-                    timestamp: new Date().toLocaleString('fr-FR')
-                };
-                
-                availabilityData.push(availability);
-                updateDisplay();
-                saveData();
-                
-                document.getElementById('agent-name').value = '';
-            });
-            
-            // Réinitialiser tout
-            resetBtn.addEventListener('click', function() {
-                if (confirm('Voulez-vous vraiment supprimer toutes les disponibilités ?')) {
-                    availabilityData = [];
-                    updateDisplay();
-                    localStorage.removeItem('availabilityData');
-                    saveData();
-                }
-            });
-
-            // Actualiser les données
-            refreshBtn.addEventListener('click', function() {
-                console.log('🔄 Actualisation manuelle des données...');
-                loadSavedData();
-                alert('Données actualisées !');
-            });
-            
-            // Mettre à jour l'affichage
-            function updateDisplay() {
-                document.querySelectorAll('.availability-list').forEach(list => {
-                    list.innerHTML = '<div class="empty-slot">Aucune disponibilité</div>';
-                });
-                
-                availabilityData.forEach(avail => {
-                    const cell = document.querySelector(`[data-day="${avail.day}"][data-slot="${avail.period}"] .availability-list`);
-                    if (cell) {
-                        if (cell.innerHTML.includes('Aucune disponibilité')) {
-                            cell.innerHTML = '';
-                        }
-                        
-                        const agentItem = document.createElement('div');
-                        agentItem.className = 'agent-item';
-                        agentItem.innerHTML = `
-                            <div class="agent-info">
-                                <span class="agent-name">${avail.agentName}</span>
-                                <span class="agent-hours">${avail.startTime} - ${avail.endTime}</span>
-                            </div>
-                            <button class="delete-btn" data-id="${avail.id}" title="Supprimer">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        `;
-                        cell.appendChild(agentItem);
-                    }
-                });
-                
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        const id = parseInt(this.getAttribute('data-id'));
-                        availabilityData = availabilityData.filter(avail => avail.id !== id);
-                        updateDisplay();
-                        saveData();
-                    });
-                });
+            if (!startTime || !endTime) {
+                alert('Veuillez sélectionner les horaires');
+                return;
             }
             
-            // SAUVEGARDER les données - MODIFIÉ
-            async function saveData() {
-                // Sauvegarde locale
-                localStorage.setItem('availabilityData', JSON.stringify(availabilityData));
-                
-                // Sauvegarde sur GitHub
-                try {
-                    await saveToGitHub();
-                    console.log('✅ Données sauvegardées sur GitHub');
-                } catch (error) {
-                    console.error('❌ Erreur sauvegarde GitHub:', error);
-                }
-            }
+            const period = getPeriodFromTime(startTime, endTime);
+            const availability = {
+                id: Date.now(),
+                agentName: agentName,
+                day: day,
+                startTime: startTime,
+                endTime: endTime,
+                period: period,
+                timestamp: new Date().toLocaleString('fr-FR')
+            };
             
-            // CHARGER les données - MODIFIÉ
-            async function loadSavedData() {
-                console.log('🔄 Chargement des données...');
-                
-                // Essayer de charger depuis GitHub d'abord
-                try {
-                    const response = await axios.get(DISPO_URL + '?t=' + Date.now());
-                    const githubData = response.data;
-                    
-                    if (Array.isArray(githubData) && githubData.length > 0) {
-                        availabilityData = githubData;
-                        console.log('✅ Données chargées depuis GitHub:', availabilityData.length, 'disponibilités');
-                        updateDisplay();
-                        return;
-                    } else {
-                        console.log('📭 GitHub vide, pas de données');
-                    }
-                } catch (error) {
-                    console.log('❌ GitHub inaccessible:', error.message);
-                }
-                
-                // Fallback sur localStorage
-                const savedData = localStorage.getItem('availabilityData');
-                if (savedData) {
-                    availabilityData = JSON.parse(savedData);
-                    console.log('💾 Données chargées depuis localStorage');
-                    updateDisplay();
-                }
-            }
-            
-            // SAUVEGARDER sur GitHub - MODIFIÉ
-            async function saveToGitHub() {
-                // Récupérer le fichier actuel
-                const fileResponse = await axios.get(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
-                    { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
-                );
-                
-                const fileSha = fileResponse.data.sha;
-                
-                // Sauvegarder seulement les disponibilités
-                await axios.put(
-                    `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/disponibilites.json`,
-                    {
-                        message: `Mise à jour disponibilités - ${new Date().toLocaleString('fr-FR')}`,
-                        content: btoa(JSON.stringify(availabilityData, null, 2)),
-                        sha: fileSha
-                    },
-                    { headers: { Authorization: `token ${GITHUB_TOKEN}` } }
-                );
-            }
-            
-            // Date actuelle
-            document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');
+            availabilityData.push(availability);
+            updateDisplay();
+            saveData();
+            document.getElementById('agent-name').value = '';
         });
-    </script>
+        
+        resetBtn.addEventListener('click', function() {
+            if (confirm('Voulez-vous vraiment supprimer toutes les disponibilités ?')) {
+                availabilityData = [];
+                updateDisplay();
+                localStorage.removeItem('availabilityData');
+                saveData();
+            }
+        });
+
+        refreshBtn.addEventListener('click', function() {
+            console.log('🔄 Actualisation...');
+            loadSavedData();
+            alert('Données actualisées !');
+        });
+        
+        function updateDisplay() {
+            document.querySelectorAll('.availability-list').forEach(list => {
+                list.innerHTML = '<div class="empty-slot">Aucune disponibilité</div>';
+            });
+            
+            availabilityData.forEach(avail => {
+                const cell = document.querySelector(`[data-day="${avail.day}"][data-slot="${avail.period}"] .availability-list`);
+                if (cell) {
+                    if (cell.innerHTML.includes('Aucune disponibilité')) {
+                        cell.innerHTML = '';
+                    }
+                    
+                    const agentItem = document.createElement('div');
+                    agentItem.className = 'agent-item';
+                    agentItem.innerHTML = `
+                        <div class="agent-info">
+                            <span class="agent-name">${avail.agentName}</span>
+                            <span class="agent-hours">${avail.startTime} - ${avail.endTime}</span>
+                        </div>
+                        <button class="delete-btn" data-id="${avail.id}" title="Supprimer">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    cell.appendChild(agentItem);
+                }
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    availabilityData = availabilityData.filter(avail => avail.id !== id);
+                    updateDisplay();
+                    saveData();
+                });
+            });
+        }
+        
+        // SAUVEGARDER - seulement localStorage
+        function saveData() {
+            localStorage.setItem('availabilityData', JSON.stringify(availabilityData));
+            console.log('💾 Données sauvegardées localement');
+        }
+        
+        // CHARGER - essayer GitHub puis localStorage
+        async function loadSavedData() {
+            console.log('🔄 Chargement...');
+            
+            // Essayer GitHub
+            try {
+                console.log('📡 Tentative GitHub...');
+                const response = await axios.get(DISPO_URL + '?t=' + Date.now());
+                console.log('📦 Réponse GitHub:', response.data);
+                
+                if (Array.isArray(response.data) && response.data.length > 0) {
+                    availabilityData = response.data;
+                    console.log('✅ GitHub:', availabilityData.length, 'disponibilités');
+                    updateDisplay();
+                    return;
+                }
+            } catch (error) {
+                console.log('❌ GitHub erreur:', error.message);
+            }
+            
+            // Fallback localStorage
+            const savedData = localStorage.getItem('availabilityData');
+            if (savedData) {
+                availabilityData = JSON.parse(savedData);
+                console.log('💾 LocalStorage:', availabilityData.length, 'disponibilités');
+                updateDisplay();
+            } else {
+                console.log('📭 Aucune donnée trouvée');
+            }
+        }
+        
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('fr-FR');
+    });
+</script>
 </body>
 </html>
